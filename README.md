@@ -29,3 +29,16 @@ You may not want to perform an exhaustive analysis yourself.  You'll probably fi
 
 Trying out 10 different options that require figuring out how to use various different programming languages isn't realistic.  Benchmarks serve to guide users to good options for their uses cases, keeping in mind their time constraints.
 
+## Generating h2o datasets
+
+Here's how to generate the h2o datasets.
+
+* Run `conda env create -f envs/rscript.yml` to create an environment with R
+* Activate the environment with `conda activate rscript`
+* Open a R session by typing `R` in your Terminal
+* Install the required package with `install.packages("data.table")`
+* Exit the R session with `quit()`
+* Respond with `y` when asked `Save workspace image? [y/n/c]` (not sure if this is needed)
+* Clone the [db-benchmark](https://github.com/h2oai/db-benchmark) repo
+* `cd` into the `_data` directory and run commands like `Rscript groupby-datagen.R 1e7 1e2 0 0` to generate the data files
+

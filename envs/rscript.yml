@@ -1,0 +1,10 @@
+name: rscript
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - r-base
+  - jupyterlab
+  - jupyterlab_code_formatter
+  - isort
+  - black
