@@ -6,7 +6,6 @@ It includes notebooks with the [h20ai/db-benchmark](https://github.com/h2oai/db-
 
 The h20ai is somewhat limited because it only tests groupby and join queries, so this repo also provides benchmark analyses for these types of queries:
 
-* common queries
 * filtering
 * I/O
 * multiple operations (e.g. filtering then groupby then join)
@@ -46,7 +45,7 @@ Here's how to generate the h2o datasets.
 * Clone the [db-benchmark](https://github.com/h2oai/db-benchmark) repo
 * `cd` into the `_data` directory and run commands like `Rscript groupby-datagen.R 1e7 1e2 0 0` to generate the data files
 
-You can generate the data files in the right directory of this project by running some shell scripts.
+You can generate the data files in the right directory of this project by running a shell script in this project.
 
 * Set the `H2O_PROJECT_PATH` environment variable (here's how I did it on my machine: `export H2O_PROJECT_PATH=~/Documents/code/forked/db-benchmark`).
 * Run the shell script to generate the data files with `bash scripts/create_h2o_data.sh`.
@@ -56,9 +55,15 @@ The script will create files in these paths:
 ```
 data/
   h2o/
-    G1_1e7_1e2_0_0/
+    groupby-datagen_1e7_1e2_0_0/
       csv/
         G1_1e7_1e2_0_0.csv
+    join-datagen_1e7_0_0_0/
+      csv/
+        J1_1e7_1e1_0_0.csv
+        J1_1e7_1e4_0_0.csv
+        J1_1e7_1e7_0_0.csv
+        J1_1e7_NA_0_0.csv
 ```
 
 ### Generating h20 Parquet datasets
@@ -72,6 +77,4 @@ Activate the environment with `conda activate mr-dask`.
 Open Jupyter with `jupyter lab`.
 
 Run all the cells in the `create-h2o-parquet` notebook that's in the `notebooks/` directory of this repo.
-
-
 
