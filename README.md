@@ -22,7 +22,7 @@ The data community should find these benchmarks valuable, caveats aside.
 
 ## Why benchmarks are important
 
-Suppose you'd like to find the quickest way to join to 2GB CSV files on your local machine.
+Suppose you'd like to find the quickest way to join a 2GB CSV file with a 1 GB Parquet file on your local machine.
 
 You may not want to perform an exhaustive analysis yourself.  You'll probably find it easier to look up some benchmarks and make and informed decision on the best alternative.
 
@@ -32,7 +32,23 @@ Trying out 10 different options that require figuring out how to use various dif
 
 Running the notebooks is a bit onerous because you need to create datasets on your local machine.  You'll need to run some scripts to generate the datasets that are used by the notebooks.  The notebooks assume the files are stored in the `data/` directory of this project.
 
-### Generating h2o CSV datasets
+## Generating h20 datasets with MrPowers Python code
+
+The h2o datasets can be generated with Python code that's more scalable than the h2o R code.  The h2o code only outputs a single file and will error out for big datasets.
+
+The MrPowers scripts output multiple files, so they're scalable.
+
+* Run `python scripts/create_groupby_data.py` to create the CSV datasets
+* Run `python scripts/create_groupby_data_parquet.py` to create the Parquet datasets
+* Run `bash scripts/create_groupby_single_csv.sh` to create the single file CSV datasets
+
+The Parquet generation scripts use Dask.
+
+Create an environment with Dask installed by running `conda env create -f envs/mr-dask.yml`.
+
+Activate the environment with `conda activate mr-dask`.
+
+## Generating h2o CSV datasets with h2o R code
 
 Here's how to generate the h2o datasets.
 
@@ -65,16 +81,4 @@ data/
         J1_1e7_1e7_0_0.csv
         J1_1e7_NA_0_0.csv
 ```
-
-### Generating h20 Parquet datasets
-
-We'll use Dask to convert these CSV datasets to Parquet datasets.
-
-Create an environment with Dask installed by running `conda env create -f envs/mr-dask.yml`.
-
-Activate the environment with `conda activate mr-dask`.
-
-Open Jupyter with `jupyter lab`.
-
-Run all the cells in the `create-h2o-parquet` notebook that's in the `notebooks/` directory of this repo.
 

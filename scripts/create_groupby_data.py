@@ -34,11 +34,11 @@ def create_groupby_data(nrows, ngroups, output_dirname):
 # TODO: make the output_dirname directory if it doesn't already exist
 
 # 1e7
-create_groupby_data(10_000_000, 100, "tmp")
+create_groupby_data(10_000_000, 100, "data/mrpowers-h2o/groupby-1e7/csv")
 
 # 1e8
-# create_groupby_data(100_000_000, 100, "tmp")
+# create_groupby_data(100_000_000, 100, "data/mrpowers-h2o/groupby-1e8/csv")
 
 # 1e9
-# create_groupby_data(1_000_000_000, 100, "tmp")
+# create_groupby_data(1_000_000_000, 100, "data/mrpowers-h2o/groupby-1e9/csv")
 
