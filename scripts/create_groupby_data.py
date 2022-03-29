@@ -1,5 +1,6 @@
 import random
 import math
+from pathlib import Path
 
 # Purpose of this script is to create the h2o groupby dataset
 # h2o script is created with R and only outputs a single file, so doesn't scale well
@@ -13,6 +14,7 @@ def create_groupby_data(nrows, ngroups, output_dirname):
     # N & K are the variable names used in other scripts
     # nrows is N
     # ngroups is K
+    Path(output_dirname).mkdir(parents=True, exist_ok=True)
     for group_num in range(1, ngroups+1):
         f = open(f"{output_dirname}/mrpowers-groupby-{group_num:05}.csv", "a")
         f.write("id1,id2,id3,id4,id5,id6,v1,v2,v3\n")
