@@ -1,6 +1,9 @@
 import random
 import math
 from pathlib import Path
+import sys
+
+dataset = sys.argv[1]
 
 # Purpose of this script is to create the h2o groupby dataset
 # h2o script is created with R and only outputs a single file, so doesn't scale well
@@ -33,14 +36,13 @@ def create_groupby_data(nrows, ngroups, output_dirname):
             f.write(f"id{id1:03},id{id2:03},id{id3:0>10},{id4},{id5},{id6},{v1},{v2},{v3}\n")
         f.close()
 
-# TODO: make the output_dirname directory if it doesn't already exist
-
-# 1e7
-create_groupby_data(10_000_000, 100, "data/mrpowers-h2o/groupby-1e7/csv")
-
-# 1e8
-# create_groupby_data(100_000_000, 100, "data/mrpowers-h2o/groupby-1e8/csv")
-
-# 1e9
-# create_groupby_data(1_000_000_000, 100, "data/mrpowers-h2o/groupby-1e9/csv")
+if dataset == "1e7":
+    # 1e7
+    create_groupby_data(10_000_000, 100, "data/mrpowers-h2o/groupby-1e7/csv")
+elif dataset == "1e8":
+    # 1e8
+    create_groupby_data(100_000_000, 100, "data/mrpowers-h2o/groupby-1e8/csv")
+elif dataset == "1e9":
+    # 1e9
+    create_groupby_data(1_000_000_000, 100, "data/mrpowers-h2o/groupby-1e9/csv")
 

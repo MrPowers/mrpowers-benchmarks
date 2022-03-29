@@ -38,8 +38,8 @@ The h2o datasets can be generated with Python code that's more scalable than the
 
 The MrPowers scripts output multiple files, so they're scalable.
 
-* Run `python scripts/create_groupby_data.py` to create the CSV datasets
-* Run `python scripts/create_groupby_data_parquet.py` to create the Parquet datasets
+* Run `python scripts/create_groupby_data.py 1e8` to create the CSV datasets
+* Run `python scripts/create_groupby_data_parquet.py 1e8` to create the Parquet datasets
 * Run `bash scripts/create_groupby_single_csv.sh` to create the single file CSV datasets
 
 The Parquet generation scripts use Dask.
@@ -47,6 +47,22 @@ The Parquet generation scripts use Dask.
 Create an environment with Dask installed by running `conda env create -f envs/mr-dask.yml`.
 
 Activate the environment with `conda activate mr-dask`.
+
+## Running benchmarks
+
+Once the data is created you can run the benchmarks.  Here's how to run the Dask groupby examples on the h2o data for example: `python benchmarks/dask_h2o_groupby.py 1e8`.  This will return a pandas DataFrame with the h2o groupby queries and the runtime by data storage type.
+
+```
+task  dask-parquet    dask-csv  dask-single-csv
+q1        6.530111   42.375217        68.157102
+q2       11.591496   45.914591        60.002330
+q3      158.140141  173.817864       186.369429
+q4        3.110347   49.357321        74.218600
+q5        3.022649   45.040007        78.528167
+q7      158.184490  153.350738       170.875564
+q8      176.275249  118.200210       160.345228
+q9      192.618197   91.034851        97.658833
+```
 
 ## Generating h2o CSV datasets with h2o R code
 
