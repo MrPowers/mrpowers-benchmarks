@@ -66,6 +66,21 @@ q8      176.275249  118.200210       160.345228
 q9      192.618197   91.034851        97.658833
 ```
 
+Here are the results of the `python benchmarks/polars-h2o-groupby.py 1e8` command:
+
+```
+task   polars-csv  polars-single-csv
+q1      10.699258           1.187866
+q2      11.287701           1.094340
+q3      54.692913           4.411051
+q4      43.071231           3.539270
+q5      28.731560           2.420679
+q6      36.500194           6.299211
+q7      52.995038           4.655452
+q8      44.739875          15.215694
+q9      77.114268           3.222981
+```
+
 ## Generating h2o CSV datasets with h2o R code
 
 Here's how to generate the h2o datasets.
