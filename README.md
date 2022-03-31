@@ -12,6 +12,29 @@ The h20ai is somewhat limited because it only tests groupby and join queries, so
 
 The benchmarks in this repo are also easy to reproduce locally.  There are clear instructions on how to generate the datasets and descriptions of the results, so you can easily gain intuition about the acutal benchmark that was run.
 
+## Quickstart
+
+* Create the `mr-dask` environment with `conda env create -f envs/mr-dask.yml`
+* Activate the environment with `conda activate mr-dask`
+* Run `python scripts/create_groupby_data.py 1e7` to create the CSV datasets
+* Run `python scripts/create_groupby_data_parquet.py 1e7` to create the Parquet datasets
+* Run `bash scripts/create_groupby_single_csv.sh` to create the single file CSV datasets
+* Run the Dask benchmarks with `python benchmarks/dask_h2o_groupby.py 1e7`
+
+You'll get output like this that shows the runtime by h2o groupby query:
+
+```
+task  dask-parquet   dask-csv  dask-single-csv
+q1        0.794347   4.238871         5.266390
+q2        1.211450   4.537796         4.030523
+q3        3.334596   9.869100         4.922707
+q4        0.349053   4.267194         3.615435
+q5        0.287449   4.227683         3.804853
+q7        3.177188   9.814380         5.073136
+q8        7.545077  16.843491        11.991266
+q9        6.961994  14.476193         8.160958
+```
+
 ## Benchmarking is hard
 
 It's difficult to build accurate benchmarks.  Runtimes depends on the hardware, software versions, and data setup.
