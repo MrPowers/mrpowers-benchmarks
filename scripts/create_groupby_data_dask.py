@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
-from dask.distributed import Client
+from dask.distributed import Client, wait
+import timeit
 import os
 
 from argparse import ArgumentParser
@@ -106,6 +107,12 @@ if __name__ == "__main__":
     else:
         print(f"The data will be located at {os.path.realpath(dir)}")
 
-    client = Client()
-
-    client.map(lambda i: create_single_df(N, K, nfiles, i, dir), range(nfiles))
+    with Client() as client:
+        tic = timeit.default_timer()
+        futures = client.map(
+            lambda i: create_single_df(N, K, nfiles, dir, i), range(nfiles)
+        )
+        wait(futures)
+        toc = timeit.default_timer()
+        total_time = toc - tic
+        print(f"Creating this data took: {total_time:.2f} s")
