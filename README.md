@@ -1,8 +1,8 @@
 # MrPowers Benchmarks
 
-This repo performs benchmarking analysis on popular databases and query engies.
+This repo performs benchmarking analysis on common datasets with popular query engies.
 
-It includes notebooks with the [h20ai/db-benchmark](https://github.com/h2oai/db-benchmark) queries for various query engines.
+It includes the [h20ai/db-benchmark](https://github.com/h2oai/db-benchmark) queries for various query engines, but looks at various ways to store the data on disk, not just a single, uncompressed CSV file.
 
 The h20ai is somewhat limited because it only tests groupby and join queries, so this repo also provides benchmark analyses for these types of queries:
 
@@ -18,7 +18,7 @@ The benchmarks in this repo are also easy to reproduce locally.  There are clear
 * Activate the environment with `conda activate mr-dask`
 * Run `python scripts/create_groupby_data.py 1e7` to create the CSV datasets
 * Run `python scripts/create_groupby_data_parquet.py 1e7` to create the Parquet datasets
-* Run `bash scripts/create_groupby_single_csv.sh` to create the single file CSV datasets
+* Run `bash scripts/create_groupby_single_csv.sh 1e7` to create the single file CSV datasets
 * Run the Dask benchmarks with `python benchmarks/dask_h2o_groupby.py 1e7`
 
 You'll get output like this that shows the runtime by h2o groupby query:
@@ -65,7 +65,7 @@ The MrPowers scripts output multiple files, so they're scalable.
 
 * Run `python scripts/create_groupby_data.py 1e8` to create the CSV datasets
 * Run `python scripts/create_groupby_data_parquet.py 1e8` to create the Parquet datasets
-* Run `bash scripts/create_groupby_single_csv.sh` to create the single file CSV datasets
+* Run `bash scripts/create_groupby_single_csv.sh 1e8` to create the single file CSV datasets
 
 The Parquet generation scripts use Dask.
 
