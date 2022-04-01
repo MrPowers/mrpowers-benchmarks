@@ -8,6 +8,7 @@ print("dask version: %s" % dask.__version__)
 
 dataset = sys.argv[1]
 
+
 def q1(ddf):
     return len(ddf.loc[ddf["id4"] == 48])
 
@@ -37,9 +38,7 @@ dask_parquet_benchmarks = {
 
 parquet_path = f"./data/mrpowers-h2o/groupby-{dataset}/parquet"
 
-ddf1 = dd.read_parquet(
-    parquet_path, columns=["id4"], engine="pyarrow"
-)
+ddf1 = dd.read_parquet(parquet_path, columns=["id4"], engine="pyarrow")
 benchmark(q1, df=ddf1, benchmarks=dask_parquet_benchmarks, name="q1")
 
 ddf2 = dd.read_parquet(
@@ -110,10 +109,14 @@ dask_res_single_csv_temp = get_results(dask_single_csv_benchmarks).set_index("ta
 
 # Collect results
 
-df = pd.concat([
-    dask_res_parquet_temp.duration,
-    dask_res_csv_temp.duration,
-    dask_res_single_csv_temp.duration,
-], axis=1, keys=['dask-parquet', 'dask-csv', "dask-single-csv"])
+df = pd.concat(
+    [
+        dask_res_parquet_temp.duration,
+        dask_res_csv_temp.duration,
+        dask_res_single_csv_temp.duration,
+    ],
+    axis=1,
+    keys=["dask-parquet", "dask-csv", "dask-single-csv"],
+)
 
 print(df)

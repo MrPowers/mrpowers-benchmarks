@@ -8,6 +8,7 @@ print("dask version: %s" % dask.__version__)
 
 dataset = sys.argv[1]
 
+
 def q1(ddf):
     return ddf.groupby("id1", dropna=False, observed=True).agg({"v1": "sum"}).compute()
 
@@ -29,15 +30,20 @@ def q3(ddf):
 
 
 def q4(ddf):
-    return ddf.groupby("id4", dropna=False, observed=True).agg(
-        {"v1": "mean", "v2": "mean", "v3": "mean"}
-    ).compute()
+    return (
+        ddf.groupby("id4", dropna=False, observed=True)
+        .agg({"v1": "mean", "v2": "mean", "v3": "mean"})
+        .compute()
+    )
 
 
 def q5(ddf):
-    return ddf.groupby("id6", dropna=False, observed=True).agg(
-        {"v1": "sum", "v2": "sum", "v3": "sum"}
-    ).compute()
+    return (
+        ddf.groupby("id6", dropna=False, observed=True)
+        .agg({"v1": "sum", "v2": "sum", "v3": "sum"})
+        .compute()
+    )
+
 
 def q2(ddf):
     return (
@@ -56,35 +62,53 @@ def q3(ddf):
 
 
 def q4(ddf):
-    return ddf.groupby("id4", dropna=False, observed=True).agg(
-        {"v1": "mean", "v2": "mean", "v3": "mean"}
-    ).compute()
+    return (
+        ddf.groupby("id4", dropna=False, observed=True)
+        .agg({"v1": "mean", "v2": "mean", "v3": "mean"})
+        .compute()
+    )
 
 
 def q5(ddf):
-    return ddf.groupby("id6", dropna=False, observed=True).agg(
-        {"v1": "sum", "v2": "sum", "v3": "sum"}
-    ).compute()
+    return (
+        ddf.groupby("id6", dropna=False, observed=True)
+        .agg({"v1": "sum", "v2": "sum", "v3": "sum"})
+        .compute()
+    )
 
 
 def q7(ddf):
-    return ddf.groupby("id3", dropna=False, observed=True).agg({"v1": "max", "v2": "min"}).assign(
-        range_v1_v2=lambda x: x["v1"] - x["v2"]
-    )[["range_v1_v2"]].compute()
+    return (
+        ddf.groupby("id3", dropna=False, observed=True)
+        .agg({"v1": "max", "v2": "min"})
+        .assign(range_v1_v2=lambda x: x["v1"] - x["v2"])[["range_v1_v2"]]
+        .compute()
+    )
 
 
 def q8(ddf):
-    return ddf[~ddf["v3"].isna()][["id6", "v3"]].groupby("id6", dropna=False, observed=True).apply(
-        lambda x: x.nlargest(2, columns="v3"), meta={"id6": "Int64", "v3": "float64"}
-    )[["v3"]].compute()
+    return (
+        ddf[~ddf["v3"].isna()][["id6", "v3"]]
+        .groupby("id6", dropna=False, observed=True)
+        .apply(
+            lambda x: x.nlargest(2, columns="v3"),
+            meta={"id6": "Int64", "v3": "float64"},
+        )[["v3"]]
+        .compute()
+    )
 
 
 def q9(ddf):
-    return ddf[["id2", "id4", "v1", "v2"]].groupby(
-        ["id2", "id4"], dropna=False, observed=True
-    ).apply(
-        lambda x: pd.Series({"r2": x.corr()["v1"]["v2"] ** 2}), meta={"r2": "float64"}
-    ).compute()
+    return (
+        ddf[["id2", "id4", "v1", "v2"]]
+        .groupby(["id2", "id4"], dropna=False, observed=True)
+        .apply(
+            lambda x: pd.Series({"r2": x.corr()["v1"]["v2"] ** 2}),
+            meta={"r2": "float64"},
+        )
+        .compute()
+    )
+
 
 # Parquet
 
@@ -97,9 +121,7 @@ dask_parquet_benchmarks = {
 
 parquet_path = f"./data/mrpowers-h2o/groupby-{dataset}/parquet"
 
-ddf1 = dd.read_parquet(
-    parquet_path, columns=["id1", "v1"], engine="pyarrow"
-)
+ddf1 = dd.read_parquet(parquet_path, columns=["id1", "v1"], engine="pyarrow")
 benchmark(q1, df=ddf1, benchmarks=dask_parquet_benchmarks, name="q1")
 
 ddf2 = dd.read_parquet(
@@ -138,9 +160,7 @@ ddf7 = dd.read_parquet(
 benchmark(q7, df=ddf7, benchmarks=dask_parquet_benchmarks, name="q7")
 
 ddf8 = dd.read_parquet(
-    parquet_path,
-    columns=["id6", "v1", "v2", "v3"],
-    engine="pyarrow"
+    parquet_path, columns=["id6", "v1", "v2", "v3"], engine="pyarrow"
 )
 benchmark(q8, df=ddf8, benchmarks=dask_parquet_benchmarks, name="q8")
 
@@ -195,10 +215,14 @@ dask_res_single_csv_temp = get_results(dask_single_csv_benchmarks).set_index("ta
 
 # Collect results
 
-df = pd.concat([
-    dask_res_parquet_temp.duration,
-    dask_res_csv_temp.duration,
-    dask_res_single_csv_temp.duration,
-], axis=1, keys=['dask-parquet', 'dask-csv', "dask-single-csv"])
+df = pd.concat(
+    [
+        dask_res_parquet_temp.duration,
+        dask_res_csv_temp.duration,
+        dask_res_single_csv_temp.duration,
+    ],
+    axis=1,
+    keys=["dask-parquet", "dask-csv", "dask-single-csv"],
+)
 
 print(df)

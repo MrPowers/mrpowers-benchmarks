@@ -71,6 +71,7 @@ def q10(df):
         .collect()
     )
 
+
 # Parquet
 
 # home = os.path.expanduser("~")
@@ -86,8 +87,8 @@ def q10(df):
 # df_scan_parquet_lazy = pl.scan_parquet(group_by_1e7_parquet, cache=False, parallel=True)
 
 # polars_parquet_benchmarks = {
-    # "duration": [],  # in seconds
-    # "task": [],
+# "duration": [],  # in seconds
+# "task": [],
 # }
 
 # benchmark(q1, df=ldf, benchmarks=polars_parquet_benchmarks, name="q1")
@@ -126,13 +127,13 @@ print(polars_res_csv_temp)
 
 # Single CSV
 
-group_by_1e7_csv = (
+path = (
     f"./data/mrpowers-h2o/groupby-{dataset}/single-csv/mrpowers-groupby-{dataset}.csv"
 )
 
 with pl.StringCache():
     df_csv = pl.read_csv(
-        group_by_1e7_csv,
+        path,
         dtype={
             "id1": pl.Utf8,
             "id2": pl.Utf8,
@@ -178,10 +179,14 @@ print(polars_res_single_csv_temp)
 
 # Collect results
 
-df = pd.concat([
-    # polars_res_parquet_temp.duration,
-    polars_res_csv_temp.duration,
-    polars_res_single_csv_temp.duration,
-], axis=1, keys=['polars-csv', "polars-single-csv"])
+df = pd.concat(
+    [
+        # polars_res_parquet_temp.duration,
+        polars_res_csv_temp.duration,
+        polars_res_single_csv_temp.duration,
+    ],
+    axis=1,
+    keys=["polars-csv", "polars-single-csv"],
+)
 
 print(df)

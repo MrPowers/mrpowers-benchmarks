@@ -1,6 +1,7 @@
 import time
 import pandas as pd
 
+
 def benchmark(f, df, benchmarks, name, **kwargs):
     """Benchmark the given function against the given DataFrame.
 
@@ -26,5 +27,3 @@ def benchmark(f, df, benchmarks, name, **kwargs):
 def get_results(benchmarks):
     """Return a pandas DataFrame containing benchmark results."""
     return pd.DataFrame.from_dict(benchmarks)
-
-
