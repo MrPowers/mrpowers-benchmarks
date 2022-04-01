@@ -104,6 +104,17 @@ q8      44.739875          15.215694
 q9      77.114268           3.222981
 ```
 
+Here are the results of `python benchmarks/dask_mrpowers_filter.py 1e8`:
+
+```
+task  dask-parquet   dask-csv  dask-single-csv
+q1        1.523786  39.585544        46.344684
+q2        1.642529  45.607886        47.090381
+q3        1.867173  40.690858        50.758034
+q4        2.252107  38.429522        45.768121
+q5        8.916658  43.167999        53.329310
+```
+
 ## Generating h2o CSV datasets with h2o R code
 
 Here's how to generate the h2o datasets.

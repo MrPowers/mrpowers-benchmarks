@@ -39,6 +39,33 @@ def q5(ddf):
         {"v1": "sum", "v2": "sum", "v3": "sum"}
     ).compute()
 
+def q2(ddf):
+    return (
+        ddf.groupby(["id1", "id2"], dropna=False, observed=True)
+        .agg({"v1": "sum"})
+        .compute()
+    )
+
+
+def q3(ddf):
+    return (
+        ddf.groupby("id3", dropna=False, observed=True)
+        .agg({"v1": "sum", "v3": "mean"})
+        .compute()
+    )
+
+
+def q4(ddf):
+    return ddf.groupby("id4", dropna=False, observed=True).agg(
+        {"v1": "mean", "v2": "mean", "v3": "mean"}
+    ).compute()
+
+
+def q5(ddf):
+    return ddf.groupby("id6", dropna=False, observed=True).agg(
+        {"v1": "sum", "v2": "sum", "v3": "sum"}
+    ).compute()
+
 
 def q7(ddf):
     return ddf.groupby("id3", dropna=False, observed=True).agg({"v1": "max", "v2": "min"}).assign(
