@@ -7,12 +7,12 @@ Computations run on Macbook Air with M1 chip & 8GB of RAM.
 *Polars*
 
 ```
-task  polars-csv  polars-single-csv
-q1      7.107650          11.150514
-q2      9.900646          24.620134
-q3     14.922941          62.201231
-q4     10.203968          19.599013
-q5      9.710138          12.165214
+task  polars-parquet  polars-csv  polars-single-csv
+q1          4.147290   16.049853          14.464048
+q2          7.025856   23.496531          62.517372
+q3         16.354966   76.546058         161.577843
+q4          8.573848   41.575043          31.605694
+q5          6.021159   12.663761          14.181147
 ```
 
 *Dask*

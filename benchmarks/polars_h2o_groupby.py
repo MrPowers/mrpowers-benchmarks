@@ -74,28 +74,23 @@ def q10(df):
 
 # Parquet
 
-# home = os.path.expanduser("~")
-# path = f"./data/mrpowers-h2o/groupby-{dataset}/parquet"
-# all_files = glob.glob(path + "/*.parquet")
-# print("***")
-# print(all_files)
+path = f"./data/mrpowers-h2o/groupby-{dataset}/parquet-pyspark"
+all_files = glob.glob(path + "/*.parquet")
 
-# ldf = pl.concat(list(pl.scan_parquet(f) for f in all_files))
+print(all_files)
 
-# print(ldf.groupby("id1").agg(pl.sum("v1")).collect())
+ldf = pl.concat(list(pl.scan_parquet(f) for f in all_files))
 
-# df_scan_parquet_lazy = pl.scan_parquet(group_by_1e7_parquet, cache=False, parallel=True)
+polars_parquet_benchmarks = {
+    "duration": [],  # in seconds
+    "task": [],
+}
 
-# polars_parquet_benchmarks = {
-# "duration": [],  # in seconds
-# "task": [],
-# }
+benchmark(q1, df=ldf, benchmarks=polars_parquet_benchmarks, name="q1")
 
-# benchmark(q1, df=ldf, benchmarks=polars_parquet_benchmarks, name="q1")
+polars_res_parquet_temp = get_results(polars_parquet_benchmarks).set_index("task")
 
-# polars_res_parquet_temp = get_results(polars_parquet_benchmarks).set_index("task")
-
-# print(polars_res_parquet_temp)
+print(polars_res_parquet_temp)
 
 
 # CSVs
