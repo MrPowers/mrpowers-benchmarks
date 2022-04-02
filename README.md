@@ -53,6 +53,8 @@ You may not want to perform an exhaustive analysis yourself.  You'll probably fi
 
 Trying out 10 different options that require figuring out how to use various different programming languages isn't realistic.  Benchmarks serve to guide users to good options for their uses cases, keeping in mind their time constraints.
 
+Benchmarks can be harmful when they're biased or improperly structured and give misleading conclusions.  You don't want to mislead readers and encourage them to make suboptimal technology choices.
+
 ## Setup
 
 Running the notebooks is a bit onerous because you need to create datasets on your local machine.  You'll need to run some scripts to generate the datasets that are used by the notebooks.  The notebooks assume the files are stored in the `data/` directory of this project.
