@@ -1,6 +1,6 @@
 # MrPowers Benchmarks
 
-This repo performs benchmarking analysis on common datasets with popular query engies.
+This repo performs benchmarking analysis on common datasets with popular query engines.
 
 It includes the [h20ai/db-benchmark](https://github.com/h2oai/db-benchmark) queries for various query engines, but looks at various ways to store the data on disk, not just a single, uncompressed CSV file.
 
@@ -10,7 +10,7 @@ The h20ai is somewhat limited because it only tests groupby and join queries, so
 * I/O
 * multiple operations (e.g. filtering then groupby then join)
 
-The benchmarks in this repo are also easy to reproduce locally.  There are clear instructions on how to generate the datasets and descriptions of the results, so you can easily gain intuition about the acutal benchmark that was run.
+The benchmarks in this repo are also easy to reproduce locally.  There are clear instructions on how to generate the datasets and descriptions of the results, so you can easily gain intuition about the actual benchmark that was run.
 
 ## Quickstart
 
@@ -55,7 +55,7 @@ You may not want to perform an exhaustive analysis yourself.  You'll probably fi
 
 Trying out 10 different options that require figuring out how to use various different programming languages isn't realistic.  Benchmarks serve to guide users to good options for their uses cases, keeping in mind their time constraints.
 
-Benchmarks can be harmful when they're biased or improperly structured and give misleading conclusions.  You don't want to mislead readers and encourage them to make suboptimal technology choices.
+Benchmarks can be harmful when they're biased or improperly structured and give misleading conclusions.  You don't want to intentionally or unintentionally misguide readers and towards suboptimal technology choices.
 
 ## Setup
 
