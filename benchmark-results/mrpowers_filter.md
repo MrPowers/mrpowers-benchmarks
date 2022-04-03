@@ -4,7 +4,7 @@ Computations run on Macbook Air with M1 chip & 8GB of RAM.
 
 ## 1e8
 
-*Polars*
+**Polars**
 
 ```
 task  polars-parquet  polars-csv  polars-single-csv
@@ -15,7 +15,7 @@ q4          8.573848   41.575043          31.605694
 q5          6.021159   12.663761          14.181147
 ```
 
-*Dask*
+**Dask**
 
 ```
 task  dask-parquet   dask-csv  dask-single-csv
@@ -26,7 +26,7 @@ q4        2.355071  48.308372        60.652701
 q5        9.232268  43.541921        65.256507
 ```
 
-*PySpark*
+**PySpark**
 
 ```
 task  pyspark-parquet  pyspark-csv  pyspark-single-csv

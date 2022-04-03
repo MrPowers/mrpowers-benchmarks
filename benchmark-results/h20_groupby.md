@@ -4,7 +4,7 @@ Computations run on Macbook Air with M1 chip & 8GB of RAM.
 
 ## 1e8
 
-*Polars*
+**Polars**
 
 Need to fix a Parquet reader bug to publish complete results.  Here are CSV results.
 
@@ -21,7 +21,7 @@ q8     38.195697          19.644145
 q9     57.352183           3.785150
 ```
 
-*Dask*
+**Dask**
 
 ```
 task  dask-parquet    dask-csv  dask-single-csv
@@ -35,7 +35,7 @@ q8       75.651666   74.187074        97.470332
 q9       99.598915   56.050491        60.685115
 ```
 
-*PySpark*
+**PySpark**
 
 ```
 task  pyspark-parquet  pyspark-csv  pyspark-single-csv
