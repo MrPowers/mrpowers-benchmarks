@@ -35,7 +35,7 @@ q8        7.545077  16.843491        11.991266
 q9        6.961994  14.476193         8.160958
 ```
 
-Change the argument to `1e8` and run the same commdands to generate larger datasets and run benchmarks on 100_000_000 rows of data!
+Change the argument to `1e8` and run the same commands to generate larger datasets and run benchmarks on 100_000_000 rows of data!
 
 ## Benchmarking is hard
 
