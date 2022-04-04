@@ -37,3 +37,16 @@ q4          13.436045   103.330660          108.612671
 q5           5.466127    74.781006           68.551979
 ```
 
+**Vaex**
+
+Need to figure out what operations Vaex is performing under the hood.
+
+```
+task  vaex-parquet  vaex-single-csv
+q1        0.706074         1.855755
+q2        0.470132         1.259827
+q3        1.010243         0.918456
+q4        1.054425         0.638830
+q5        2.056504         7.629100
+```
+
