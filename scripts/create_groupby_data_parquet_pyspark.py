@@ -1,10 +1,15 @@
 import sys
 
-dataset = sys.argv[1]
+# dataset = sys.argv[1]
 
 from pyspark.sql import SparkSession
 
 spark = SparkSession.builder.master("local").appName("mrpowers").getOrCreate()
+
+df = spark.read.csv("./data/mrpowers-h2o/groupby-1e8/csv", header='true', inferSchema=True)
+df.repartition(5).write.parquet(
+    "./tmp/mrpowers-h2o/groupby-1e7/parquet-pyspark"
+)
 
 if dataset == "1e7":
     df = spark.read.csv("./data/mrpowers-h2o/groupby-1e7/csv", header='true', inferSchema=True)
