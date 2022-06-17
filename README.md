@@ -37,6 +37,102 @@ q9        6.961994  14.476193         8.160958
 
 Change the argument to `1e8` and run the same commands to generate larger datasets and run benchmarks on 100_000_000 rows of data!
 
+## Provisioning ec2 server
+
+Here are the steps for provisioning an ec2 server, installing dependencies, and running the benchmarks on more powerful, remote machines.
+
+Create a key-pair in ec2.  Once you create a key-pair, download it to your local machine.  My key pair was named powers-h2o-fun.pem.
+
+Go to the AWS console and create an AWS instance.
+
+Move over the private key file to the `.ssh` directory with `cp powers-h2o-fun.pem ~/.ssh`.
+
+Your private key file needs to have specific permissions.  Run these commands to give the file more permissions:
+
+```
+chmod g-r powers-h2o-fun.pem
+chmod a-r powers-h2o-fun.pem
+chmod u+r powers-h2o-fun.pem
+```
+
+Find the IP address of your ec2 instance, it should be something like 18.118.128.999.  SSH into the instance with this command:
+
+```
+ssh ubuntu@18.118.128.999 -i ~/.ssh/powers-h2o-fun.pem
+```
+
+Once you're SSH'd to the box, you want to run the following commands to install conda.
+
+```
+mkdir -p ~/miniconda3
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
+bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
+rm -rf ~/miniconda3/miniconda.sh
+~/miniconda3/bin/conda init bash
+```
+
+You can access SSDs on a lot of ec2 instances, but they aren't formatted or mounted.
+
+Run `df -h` to see the disk free space.
+
+Run `lsblk` to display details about the block devices.  This let's you see the SSDs that are and are not mounted.
+
+Here's how to mount one of the SSDs:
+
+```
+sudo mkfs -t ext4 /dev/xvdb
+sudo mkdir /scratch
+sudo mount /dev/xvdb /scratch/
+sudo chmod a+w /scratch/
+```
+
+If you stop and start the ec2 instance, you need to remount the SSD (and will lose all the data in the SSD).
+
+Now we want to install the AWS CLI on the ec2 instance, so it's easy to download files from S3 to the SSD.
+
+Before installing AWS, install the unzip package:
+
+```
+sudo apt install unzip
+```
+
+Install the AWS CLI with these commands:
+
+```
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+```
+
+Copy the ~/.aws/credentials on your local machine to the ~/.aws/credentials file on the ec2 instance.  This isn't best practice, but it shoudl work.
+
+Download the datasets to the SSD with these commands:
+
+```
+aws s3 cp s3://coiled-datasets/h2o-benchmark/N_1e7_K_1e2_single.csv /scratch/
+
+aws s3 cp s3://coiled-datasets/h2o-benchmark/N_1e8_K_1e2_single.csv /scratch/
+
+aws s3 cp s3://coiled-datasets/h2o-benchmark/N_1e9_K_1e2_single.csv /scratch/
+```
+
+Activate a conda environment with the correct permissions and run these commands to create the Parquet datasets:
+
+```
+import dask.dataframe as dd
+
+dd.read_csv("/scratch/N_1e7_K_1e2_single.csv")
+ddf.repartition("100MB").to_parquet("/scratch/N_1e7_K_1e2_parquet", engine="pyarrow", compression="snappy")
+
+dd.read_csv("/scratch/N_1e8_K_1e2_single.csv")
+ddf.repartition("100MB").to_parquet("/scratch/N_1e8_K_1e2_parquet", engine="pyarrow", compression="snappy")
+
+dd.read_csv("/scratch/N_1e9_K_1e2_single.csv")
+ddf.repartition("100MB").to_parquet("/scratch/N_1e9_K_1e2_parquet", engine="pyarrow", compression="snappy")
+```
+
+Now you're ready to run the benchmarks on the ec2 instance from the command line.
+
 ## Benchmarking is hard
 
 It's difficult to build accurate benchmarks.  Runtimes depends on the hardware, software versions, and data setup.
