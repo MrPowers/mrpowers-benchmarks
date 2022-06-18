@@ -133,6 +133,8 @@ ddf.repartition("100MB").to_parquet("/scratch/N_1e9_K_1e2_parquet", engine="pyar
 
 Now you're ready to run the benchmarks on the ec2 instance from the command line.
 
+Follow [these instructions](https://medium.com/coder-life/practice-2-host-your-website-on-github-pages-39229dc9bb1b) to setup git on the Ubuntu machine.
+
 ## Benchmarking is hard
 
 It's difficult to build accurate benchmarks.  Runtimes depends on the hardware, software versions, and data setup.

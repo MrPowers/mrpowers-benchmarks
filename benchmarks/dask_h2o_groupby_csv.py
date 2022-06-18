@@ -2,7 +2,7 @@ import dask.dataframe as dd
 import pandas as pd
 import dask
 from helpers import benchmark, get_results
-from queries import *
+from dask_h2o_groupby_queries import *
 import sys
 
 print("dask version: %s" % dask.__version__)
