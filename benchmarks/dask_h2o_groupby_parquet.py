@@ -4,68 +4,71 @@ import dask
 from helpers import benchmark, get_results
 from dask_h2o_groupby_queries import *
 import sys
-from dask.distributed import wait
+from dask.distributed import Client, wait
 
 print("dask version: %s" % dask.__version__)
 
 parquet_path = sys.argv[1]
 
-dask_parquet_benchmarks = {
-    "duration": [],
-    "task": [],
-}
+if __name__ == '__main__':
+    client = Client()
 
-ddf1 = wait(dd.read_parquet(parquet_path, columns=["id1", "v1"], engine="pyarrow").persist())
-benchmark(q1, df=ddf1, benchmarks=dask_parquet_benchmarks, name="q1")
+    dask_parquet_benchmarks = {
+        "duration": [],
+        "task": [],
+    }
 
-ddf2 = wait(dd.read_parquet(
-    parquet_path,
-    columns=["id1", "id2", "v1"],
-    engine="pyarrow",
-).persist())
-benchmark(q2, df=ddf2, benchmarks=dask_parquet_benchmarks, name="q2")
+    ddf1 = wait(dd.read_parquet(parquet_path, columns=["id1", "v1"], engine="pyarrow").persist())
+    benchmark(q1, df=ddf1, benchmarks=dask_parquet_benchmarks, name="q1")
 
-ddf3 = wait(dd.read_parquet(
-    parquet_path,
-    columns=["id3", "v1", "v3"],
-    engine="pyarrow",
-).persist())
-benchmark(q3, df=ddf3, benchmarks=dask_parquet_benchmarks, name="q3")
+    ddf2 = wait(dd.read_parquet(
+        parquet_path,
+        columns=["id1", "id2", "v1"],
+        engine="pyarrow",
+    ).persist())
+    benchmark(q2, df=ddf2, benchmarks=dask_parquet_benchmarks, name="q2")
 
-ddf4 = dd.read_parquet(
-    parquet_path,
-    columns=["id4", "v1", "v2", "v3"],
-    engine="pyarrow",
-)
-benchmark(q4, df=ddf4, benchmarks=dask_parquet_benchmarks, name="q4")
+    ddf3 = wait(dd.read_parquet(
+        parquet_path,
+        columns=["id3", "v1", "v3"],
+        engine="pyarrow",
+    ).persist())
+    benchmark(q3, df=ddf3, benchmarks=dask_parquet_benchmarks, name="q3")
 
-ddf5 = dd.read_parquet(
-    parquet_path,
-    columns=["id6", "v1", "v2", "v3"],
-    engine="pyarrow",
-)
-benchmark(q5, df=ddf5, benchmarks=dask_parquet_benchmarks, name="q5")
+    ddf4 = dd.read_parquet(
+        parquet_path,
+        columns=["id4", "v1", "v2", "v3"],
+        engine="pyarrow",
+    )
+    benchmark(q4, df=ddf4, benchmarks=dask_parquet_benchmarks, name="q4")
 
-ddf7 = dd.read_parquet(
-    parquet_path,
-    columns=["id3", "v1", "v2"],
-    engine="pyarrow",
-)
-benchmark(q7, df=ddf7, benchmarks=dask_parquet_benchmarks, name="q7")
+    ddf5 = dd.read_parquet(
+        parquet_path,
+        columns=["id6", "v1", "v2", "v3"],
+        engine="pyarrow",
+    )
+    benchmark(q5, df=ddf5, benchmarks=dask_parquet_benchmarks, name="q5")
 
-ddf8 = dd.read_parquet(
-    parquet_path, columns=["id6", "v1", "v2", "v3"], engine="pyarrow"
-)
-benchmark(q8, df=ddf8, benchmarks=dask_parquet_benchmarks, name="q8")
+    ddf7 = dd.read_parquet(
+        parquet_path,
+        columns=["id3", "v1", "v2"],
+        engine="pyarrow",
+    )
+    benchmark(q7, df=ddf7, benchmarks=dask_parquet_benchmarks, name="q7")
 
-ddf9 = dd.read_parquet(
-    parquet_path,
-    columns=["id2", "id4", "v1", "v2"],
-    engine="pyarrow",
-)
-benchmark(q9, df=ddf9, benchmarks=dask_parquet_benchmarks, name="q9")
+    ddf8 = dd.read_parquet(
+        parquet_path, columns=["id6", "v1", "v2", "v3"], engine="pyarrow"
+    )
+    benchmark(q8, df=ddf8, benchmarks=dask_parquet_benchmarks, name="q8")
 
-dask_res_parquet_temp = get_results(dask_parquet_benchmarks).set_index("task")
+    ddf9 = dd.read_parquet(
+        parquet_path,
+        columns=["id2", "id4", "v1", "v2"],
+        engine="pyarrow",
+    )
+    benchmark(q9, df=ddf9, benchmarks=dask_parquet_benchmarks, name="q9")
 
-print(dask_res_parquet_temp)
+    dask_res_parquet_temp = get_results(dask_parquet_benchmarks).set_index("task")
+
+    print(dask_res_parquet_temp)
 
