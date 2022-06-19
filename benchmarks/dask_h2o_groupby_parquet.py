@@ -4,9 +4,7 @@ import dask
 from helpers import benchmark, get_results
 from dask_h2o_groupby_queries import *
 import sys
-from dask.distributed import Client, wait
-
-client = Client()
+from dask.distributed import wait
 
 print("dask version: %s" % dask.__version__)
 
