@@ -4,6 +4,9 @@ import dask
 from helpers import benchmark, get_results
 from dask_h2o_groupby_queries import *
 import sys
+from dask.distributed import Client, wait
+
+client = Client()
 
 print("dask version: %s" % dask.__version__)
 
@@ -14,21 +17,21 @@ dask_parquet_benchmarks = {
     "task": [],
 }
 
-ddf1 = dd.read_parquet(parquet_path, columns=["id1", "v1"], engine="pyarrow")
+ddf1 = wait(dd.read_parquet(parquet_path, columns=["id1", "v1"], engine="pyarrow").persist())
 benchmark(q1, df=ddf1, benchmarks=dask_parquet_benchmarks, name="q1")
 
-ddf2 = dd.read_parquet(
+ddf2 = wait(dd.read_parquet(
     parquet_path,
     columns=["id1", "id2", "v1"],
     engine="pyarrow",
-)
+).persist())
 benchmark(q2, df=ddf2, benchmarks=dask_parquet_benchmarks, name="q2")
 
-ddf3 = dd.read_parquet(
+ddf3 = wait(dd.read_parquet(
     parquet_path,
     columns=["id3", "v1", "v3"],
     engine="pyarrow",
-)
+).persist())
 benchmark(q3, df=ddf3, benchmarks=dask_parquet_benchmarks, name="q3")
 
 ddf4 = dd.read_parquet(
