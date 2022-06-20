@@ -1,7 +1,15 @@
 import dask.dataframe as dd
 import sys
 
-dataset = sys.argv[1]
+# dataset = sys.argv[1]
+
+ddf = dd.read_csv("./data/mrpowers-h2o/groupby-1e8/csv/*.csv")
+ddf.repartition(5).to_parquet(
+    "./tmp/mrpowers-h2o/groupby-1e7/parquet-dask",
+    engine="pyarrow",
+    compression="snappy",
+)
+
 
 if dataset == "1e7":
     # 1e7
