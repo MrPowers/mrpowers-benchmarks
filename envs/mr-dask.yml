@@ -18,3 +18,7 @@ dependencies:
   - jupyterlab_code_formatter
   - isort
   - black
+  - pytest
+  - pip
+  - pip:
+    - beavis
