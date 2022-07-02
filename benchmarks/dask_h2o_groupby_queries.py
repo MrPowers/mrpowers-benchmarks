@@ -48,6 +48,7 @@ def q7(ddf):
     # .assign(range_v1_v2=lambda x: x["v1"] - x["v2"])[["range_v1_v2"]]
     # .compute()
     # )
+
     # powers code
     tmp = ddf.groupby("id3", dropna=False, observed=True).agg(
         {"v1": "max", "v2": "min"}
