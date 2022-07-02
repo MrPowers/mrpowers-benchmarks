@@ -82,8 +82,8 @@ def q10(df):
 # ldf = pl.concat(list(pl.scan_parquet(f) for f in all_files))
 
 # polars_parquet_benchmarks = {
-    # "duration": [],  # in seconds
-    # "task": [],
+# "duration": [],  # in seconds
+# "task": [],
 # }
 
 # benchmark(q1, df=ldf, benchmarks=polars_parquet_benchmarks, name="q1")

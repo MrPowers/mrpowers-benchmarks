@@ -5,6 +5,7 @@ import pandas as pd
 
 dataset = sys.argv[1]
 
+
 def q1(df):
     return len(df[df.id4 == 48])
 
@@ -23,6 +24,7 @@ def q4(df):
 
 def q5(df):
     return len(df[(df.id2 == "id001") & (df.id5 == 48)])
+
 
 # Parquet
 
@@ -82,4 +84,3 @@ df = pd.concat(
 )
 
 print(df)
-

@@ -15,13 +15,16 @@ def test_q1():
 def test_q2():
     ddf = dd.read_csv("data/h20_groupby_sample.csv")
     res = q2(ddf)
-    # print(res)
+    print("***")
+    print(res)
 
 
 def test_q7():
     ddf = dd.read_csv("data/h20_groupby_sample.csv")
     res = q7(ddf)
-    df = pd.DataFrame.from_dict({"range_v1_v2": [3, 1, -5, -7, -7], "id3": ["id1", "id2", "id5", "id6", "id7"]})
+    df = pd.DataFrame.from_dict(
+        {"range_v1_v2": [3, 1, -5, -7, -7], "id3": ["id1", "id2", "id5", "id6", "id7"]}
+    )
     beavis.assert_pd_equality(res, df, check_index=False, check_dtype=False)
 
 
@@ -31,4 +34,3 @@ def test_q8():
     print("Q8")
     res = q7(ddf)
     print(res)
-

@@ -12,9 +12,11 @@ dataset = sys.argv[1]
 def q1(ddf):
     return ddf.loc[ddf["id2"] == "id089"].groupby("id1").id4.sum().compute()
 
+
 def q2(ddf):
     t = ddf.groupby("id3").agg({"id4": "sum", "v2": "mean"})
     return t.loc[(t["id4"] > 50) & (t["v2"] > 5.0)].compute()
+
 
 # Parquet
 
@@ -76,4 +78,3 @@ df = pd.concat(
 )
 
 print(df)
-

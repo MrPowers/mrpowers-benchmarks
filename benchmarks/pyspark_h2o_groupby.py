@@ -23,9 +23,7 @@ def q3(df):
 
 
 def q4(df):
-    return (
-        df.groupby("id4").agg(F.mean("v1"), F.mean("v2"), F.mean("v3")).collect()
-    )
+    return df.groupby("id4").agg(F.mean("v1"), F.mean("v2"), F.mean("v3")).collect()
 
 
 def q5(df):
@@ -49,18 +47,22 @@ def q7(df):
 
 
 def q8(df):
-    ans = spark.sql("select id6, largest2_v3 from (select id6, v3 as largest2_v3, row_number() over (partition by id6 order by v3 desc) as order_v3 from x where v3 is not null) sub_query where order_v3 <= 2")
+    ans = spark.sql(
+        "select id6, largest2_v3 from (select id6, v3 as largest2_v3, row_number() over (partition by id6 order by v3 desc) as order_v3 from x where v3 is not null) sub_query where order_v3 <= 2"
+    )
     return ans.collect()
 
 
 def q9(df):
-    ans = spark.sql("select id2, id4, pow(corr(v1, v2), 2) as r2 from x group by id2, id4")
+    ans = spark.sql(
+        "select id2, id4, pow(corr(v1, v2), 2) as r2 from x group by id2, id4"
+    )
     return ans.collect()
 
 
 # def q10(df):
-    # ans = spark.sql("select sum(v3) as sum_v3, count(v1) as count from x group by id1, id2, id3, id4, id5, id6")
-    # return ans.collect()
+# ans = spark.sql("select sum(v3) as sum_v3, count(v1) as count from x group by id1, id2, id3, id4, id5, id6")
+# return ans.collect()
 
 
 # Parquet
@@ -91,7 +93,7 @@ pyspark_res_parquet_temp = get_results(pyspark_parquet_benchmarks).set_index("ta
 # CSVs
 
 path = f"./data/mrpowers-h2o/groupby-{dataset}/csv"
-df = spark.read.csv(path, header='true', inferSchema=True)
+df = spark.read.csv(path, header="true", inferSchema=True)
 
 pyspark_csv_benchmarks = {
     "duration": [],
@@ -117,7 +119,7 @@ path = (
     f"./data/mrpowers-h2o/groupby-{dataset}/single-csv/mrpowers-groupby-{dataset}.csv"
 )
 
-df = spark.read.csv(path, header='true', inferSchema=True)
+df = spark.read.csv(path, header="true", inferSchema=True)
 
 pyspark_single_csv_benchmarks = {
     "duration": [],
@@ -135,7 +137,9 @@ benchmark(q8, df=df, benchmarks=pyspark_single_csv_benchmarks, name="q8")
 benchmark(q9, df=df, benchmarks=pyspark_single_csv_benchmarks, name="q9")
 # benchmark(q10, df=df, benchmarks=pyspark_single_csv_benchmarks, name="q10")
 
-pyspark_res_single_csv_temp = get_results(pyspark_single_csv_benchmarks).set_index("task")
+pyspark_res_single_csv_temp = get_results(pyspark_single_csv_benchmarks).set_index(
+    "task"
+)
 
 # Collect results
 
@@ -150,4 +154,3 @@ df = pd.concat(
 )
 
 print(df)
-

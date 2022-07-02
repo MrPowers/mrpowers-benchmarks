@@ -43,13 +43,15 @@ def q5(ddf):
 def q7(ddf):
     # h2o code
     # return (
-        # ddf.groupby("id3", dropna=False, observed=True)
-        # .agg({"v1": "max", "v2": "min"})
-        # .assign(range_v1_v2=lambda x: x["v1"] - x["v2"])[["range_v1_v2"]]
-        # .compute()
+    # ddf.groupby("id3", dropna=False, observed=True)
+    # .agg({"v1": "max", "v2": "min"})
+    # .assign(range_v1_v2=lambda x: x["v1"] - x["v2"])[["range_v1_v2"]]
+    # .compute()
     # )
     # powers code
-    tmp = ddf.groupby("id3", dropna=False, observed=True).agg({"v1": "max", "v2": "min"})
+    tmp = ddf.groupby("id3", dropna=False, observed=True).agg(
+        {"v1": "max", "v2": "min"}
+    )
     tmp["range_v1_v2"] = tmp["v1"] - tmp["v2"]
     return tmp[["range_v1_v2"]].compute()
 
@@ -76,5 +78,3 @@ def q9(ddf):
         )
         .compute()
     )
-
-

@@ -26,6 +26,7 @@ def q4(df):
 def q5(df):
     return len(df.filter((pl.col("id2") == "id001") & (pl.col("id5") == 48)).collect())
 
+
 # Parquet
 
 path = f"./data/mrpowers-h2o/groupby-{dataset}/parquet-pyspark"
@@ -34,8 +35,8 @@ all_files = glob.glob(path + "/*.parquet")
 ldf = pl.concat(list(pl.scan_parquet(f) for f in all_files))
 
 polars_parquet_benchmarks = {
-"duration": [],  # in seconds
-"task": [],
+    "duration": [],  # in seconds
+    "task": [],
 }
 
 benchmark(q1, df=ldf, benchmarks=polars_parquet_benchmarks, name="q1")
@@ -102,4 +103,3 @@ df = pd.concat(
 )
 
 print(df)
-
