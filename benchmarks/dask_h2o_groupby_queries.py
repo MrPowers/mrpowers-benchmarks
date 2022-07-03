@@ -1,7 +1,5 @@
 import dask.dataframe as dd
 import pandas as pd
-import dask
-from .helpers import benchmark, get_results
 
 
 def q1(ddf):
