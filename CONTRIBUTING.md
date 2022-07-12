@@ -2,6 +2,33 @@
 
 This page explains how to contribute to the mrpowers-benchmarks repo, including running the tests locally and provisioning an ec2 server to run the benchmarks on a more powerful machine.
 
+## Creating datasets
+
+You can download the h2o CSV datasets from S3.  You can use the h2o CSV files to create Parquet datasets.
+
+Here's how you can organize the data on disk.
+
+```
+data_dir/
+  N_1e7_K_1e2_single.csv
+  N_1e8_K_1e2_single.csv
+  N_1e9_K_1e2_single.csv
+  dask/
+    N_1e7_K_1e2_parquet/
+    N_1e8_K_1e2_parquet/
+    N_1e9_K_1e2_parquet/
+  pyspark/
+    N_1e7_K_1e2_parquet/
+    N_1e8_K_1e2_parquet/
+    N_1e9_K_1e2_parquet/
+  polars/
+    N_1e7_K_1e2_parquet/
+    N_1e8_K_1e2_parquet/
+    N_1e9_K_1e2_parquet/
+```
+
+A lot of the scripts depend on having the `MRPOWERS_DATA_DIRNAME` environment variable to be set to the directory where the data will be stored.
+
 ## Provisioning ec2 server
 
 Here are the steps for provisioning an ec2 server, installing dependencies, and running the benchmarks on more powerful, remote machines.
