@@ -3,12 +3,20 @@ from helpers import benchmark, get_results
 import sys
 import pandas as pd
 from datafusion_h2o_groupby_queries import *
+from pyarrow import csv as pacsv
 
 path = sys.argv[1]
 
 ctx = datafusion.SessionContext()
 
-ctx.register_csv("x", path)
+# ctx.register_csv("x", path)
+
+data = pacsv.read_csv(path, convert_options=pacsv.ConvertOptions(auto_dict_encode=True))
+print("dataset loaded")
+
+# ctx = df.ExecutionContext()
+ctx.register_record_batches("x", [data.to_batches()])
+print("registered record batches")
 
 benchmarks = {
     "duration": [],
