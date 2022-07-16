@@ -7,11 +7,11 @@ def q2(ctx):
 
 
 def q3(ctx):
-    return ctx.sql("select id3, sum(v1) as v1, mean(v3) as v3 from x group by id3").collect()
+    return ctx.sql("select id3, sum(v1) as v1, avg(v3) as v3 from x group by id3").collect()
 
 
 def q4(ctx):
-    return ctx.sql("select id4, mean(v1) as v1, mean(v2) as v2, mean(v3) as v3 from x group by id4").collect()
+    return ctx.sql("select id4, avg(v1) as v1, avg(v2) as v2, avg(v3) as v3 from x group by id4").collect()
 
 
 def q5(ctx):
