@@ -31,7 +31,7 @@ def q8(ctx):
 
 
 def q9(ctx):
-    return ctx.sql("select id2, id4, pow(corr(v1, v2), 2) as r2 from x group by id2, id4").collect()
+    return ctx.sql("select id2, id4, power(corr(v1, v2), 2) as r2 from x group by id2, id4").collect()
 
 
 def q10(ctx):

@@ -47,34 +47,44 @@ if __name__ == "__main__":
         parquet_path,
         columns=["id4", "v1", "v2", "v3"],
         engine="pyarrow",
-    )
+    ).persist()
+    wait(ddf4)
     benchmark(q4, df=ddf4, benchmarks=dask_parquet_benchmarks, name="q4")
+    del ddf4
 
     ddf5 = dd.read_parquet(
         parquet_path,
         columns=["id6", "v1", "v2", "v3"],
         engine="pyarrow",
-    )
+    ).persist()
+    wait(ddf5)
     benchmark(q5, df=ddf5, benchmarks=dask_parquet_benchmarks, name="q5")
+    del ddf5
 
     ddf7 = dd.read_parquet(
         parquet_path,
         columns=["id3", "v1", "v2"],
         engine="pyarrow",
-    )
+    ).persist()
+    wait(ddf7)
     benchmark(q7, df=ddf7, benchmarks=dask_parquet_benchmarks, name="q7")
+    del ddf7
 
     ddf8 = dd.read_parquet(
         parquet_path, columns=["id6", "v1", "v2", "v3"], engine="pyarrow"
-    )
+    ).persist()
+    wait(ddf8)
     benchmark(q8, df=ddf8, benchmarks=dask_parquet_benchmarks, name="q8")
+    del ddf8
 
     ddf9 = dd.read_parquet(
         parquet_path,
         columns=["id2", "id4", "v1", "v2"],
         engine="pyarrow",
-    )
+    ).persist()
+    wait(ddf9)
     benchmark(q9, df=ddf9, benchmarks=dask_parquet_benchmarks, name="q9")
+    del ddf9
 
     dask_res_parquet_temp = get_results(dask_parquet_benchmarks).set_index("task")
 

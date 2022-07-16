@@ -23,7 +23,7 @@ benchmark(q5, df=ctx, benchmarks=benchmarks, name="q5")
 # benchmark(q6, df=ctx, benchmarks=benchmarks, name="q6")
 benchmark(q7, df=ctx, benchmarks=benchmarks, name="q7")
 benchmark(q8, df=ctx, benchmarks=benchmarks, name="q8")
-# benchmark(q9, df=ctx, benchmarks=benchmarks, name="q9")
+benchmark(q9, df=ctx, benchmarks=benchmarks, name="q9")
 benchmark(q10, df=ctx, benchmarks=benchmarks, name="q10")
 
 res = get_results(benchmarks).set_index("task")
