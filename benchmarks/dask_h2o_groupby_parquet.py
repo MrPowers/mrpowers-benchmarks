@@ -4,14 +4,15 @@ import dask
 from helpers import benchmark, get_results
 from dask_h2o_groupby_queries import *
 import sys
-from dask.distributed import Client, wait
+from dask.distributed import Client, wait, LocalCluster
 
 print("dask version: %s" % dask.__version__)
 
 parquet_path = sys.argv[1]
 
 if __name__ == "__main__":
-    client = Client()
+    cluster = LocalCluster(n_workers=3, memory_target_fraction=2.4)
+    client = Client(cluster)
 
     dask_parquet_benchmarks = {
         "duration": [],
