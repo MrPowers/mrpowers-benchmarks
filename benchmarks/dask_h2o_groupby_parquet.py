@@ -11,7 +11,7 @@ print("dask version: %s" % dask.__version__)
 parquet_path = sys.argv[1]
 
 if __name__ == "__main__":
-    cluster = LocalCluster(n_workers=3, memory_target_fraction=2.4)
+    cluster = LocalCluster(n_workers=3, memory_limit="2.4GB")
     client = Client(cluster)
 
     dask_parquet_benchmarks = {

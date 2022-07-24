@@ -7,7 +7,8 @@ def q2(ctx):
 
 
 def q3(ctx):
-    return ctx.sql("select id3, sum(v1) as v1, avg(v3) as v3 from x group by id3").collect()
+    return ctx.sql("select count(distinct(id3)) from x").collect()
+    # return ctx.sql("select id3, sum(v1) as v1, avg(v3) as v3 from x group by id3").collect()
 
 
 def q4(ctx):
