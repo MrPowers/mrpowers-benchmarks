@@ -1,4 +1,4 @@
-name: rscript
+name: mr-r
 channels:
   - conda-forge
   - defaults

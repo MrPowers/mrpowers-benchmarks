@@ -1,12 +1,12 @@
 # MrPowers Benchmarks
 
-This repo performs benchmarking analysis on common datasets with popular query engines.
+This repo performs benchmarking analysis on common datasets with popular query engines like pandas, Polars, DataFusion, and Dask.
 
-It draws inspiration from the [h20 benchmarks](https://github.com/h2oai/db-benchmark) but includes different types of queries and uses modern file formats.
+It draws inspiration from the [h2o benchmarks](https://github.com/h2oai/db-benchmark) but also includes different types of queries and uses some different execution methodologies (e.g. modern file formats).
 
-The h20 benchmarks have been a great contribution to the data community, but they're limited, see the Limitations of h2o benchmarks section.
+The h2o benchmarks have been a great contribution to the data community, but they've made some decisions that aren't as relevant for modern workflows, see [this section](https://github.com/MrPowers/mrpowers-benchmarks#h2o-benchmark-methodology) for more details.
 
-Most readers of this repo will be most interested in the benchmarking results.  They're not interested in actually reproducing the benchmarking results themselves.  This repo makes it easy for readers that are interested in reproducing the results, for those that are so inclined.
+Most readers of this repo are interested in the benchmarking results and don't actually want to reproduce the benchmarking results themselves.  In any case, this repo makes it easy for readers to reproducing the results themselves.  This is particularily useful if you'd like to run the benchmarks on a specific set of hardware.
 
 This repo provides clear instructions on how to generate the datasets and descriptions of the results, so you can easily gain intuition about the actual benchmarks that are run.
 
@@ -16,21 +16,23 @@ It's difficult to build accurate benchmarks.  Runtimes depends on the hardware, 
 
 Accurate benchmarks are even harder when comparing different technologies.  Certain frameworks will perform better with different files sizes and file formats.  This benchmarking analysis tries to give a fair representation on the range of outcomes that are possible given the most impactful inputs.
 
-The benchmarks presented in this repo should not be interpreted as definitive results.  They're runtimes for specific data tasks, on one type of hardware, with a specific set of version dependencies.  The code isn't necessarily optimized (we accept community contributions to restructure code).
+The benchmarks presented in this repo should not be interpreted as definitive results.  They're runtimes for specific data tasks, on one type of hardware, with a specific set of software versions.  The code isn't necessarily optimized (we accept community contributions to restructure code).
 
 The data community should find these benchmarks valuable, caveats aside.
 
 ## Why benchmarks are important
 
-Suppose you'd like to find the quickest way to join a 2GB CSV file with a 1 GB Parquet file on your local machine.
+Suppose you'd like to find the quickest way to join a 2GB CSV file with a 1GB Parquet file on your local machine.
 
 You may not want to perform an exhaustive analysis yourself.  You'll probably find it easier to look up some benchmarks and make and informed decision on the best alternative.
 
 Trying out 10 different options that require figuring out how to use various different programming languages isn't realistic.  Benchmarks serve to guide users to good options for their uses cases, keeping in mind their time constraints.
 
-Benchmarks can be harmful when they're biased or improperly structured and give misleading conclusions.  You don't want to intentionally or unintentionally misguide readers and towards suboptimal technology choices.
+Benchmarks can be harmful when they're biased or improperly structured and give misleading conclusions.  Benchmarks should not intentionally or unintentionally misguide readers and towards suboptimal technology choices.
 
-## Limitations of h2o benchmarks
+Benchmarks should also pave the way for revolutionary technologies to gain adoption.  When a new query engine figures out how to process data in a faster, more reliable manner, they should be able to quantify improvements to users via benchmarks.  This helps drive adoption.
+
+## h2o benchmark methodology
 
 The h2o benchmarks have certain limitations, as do all benchmarks.
 
@@ -105,25 +107,44 @@ It can unfortunately be hard to divide a query runtime into different compontent
 
 ## Quickstart
 
+This section explains how to download data, create software environments, and run benchmarks for the different execution engines.
+
+### Downloading datasets
+
+* Run `aws s3 cp s3://coiled-datasets/h2o-benchmark/N_1e7_K_1e2_single.csv tmp/` to download the 0.5 GB h2o groupby dataset
+* Substitute 1e8 and 1e9 to download the 5 GB and 50 GB datasets
+
+### Polars benchmarks
+
+* Create the `mr-polars` environment with `conda env create -f envs/mr-polars.yml`
+* Activate the environment with `conda activate mr-polars`
+* Run the Polars benchmarks with `python benchmarks/polars_h2o_groupby_csv.py tmp/N_1e7_K_1e2_single.csv`
+
+You'll get output like this that shows the runtime by h2o groupby queries:
+
+```
+task  duration
+q1    0.038983
+q2    0.117003
+q3    0.114049
+q4    0.044766
+q5    0.140829
+q6    0.189151
+q7    0.109352
+q8    0.817299
+q9    0.198762
+```
+
+### DataFusion benchmarks
+
+* Create the `mr-datafusion` environment with `conda env create -f envs/mr-datafusion.yml`
+* Activate the environment with `conda activate mr-datafusion`
+* Run the Polars benchmarks with `python benchmarks/datafusion_h2o_groupby_csv.py tmp/N_1e7_K_1e2_single.csv`
+
+### Dask benchmarks
+
 * Create the `mr-dask` environment with `conda env create -f envs/mr-dask.yml`
 * Activate the environment with `conda activate mr-dask`
-* Run `aws s3 cp s3://coiled-datasets/h2o-benchmark/N_1e7_K_1e2_single.csv tmp/` to download one of the h2o groupby datasets
 * Run `python dask_csv_to_parquet.py tmp/N_1e7_K_1e2_single.csv tmp/N_1e7_K_1e2_parquet` to break up the CSV dataset to 100 MB Parquet files
 * Run the Dask benchmarks with `python benchmarks/dask_h2o_groupby_csv.py tmp/N_1e7_K_1e2_single.csv`
-
-You'll get output like this that shows the runtime by h2o groupby query:
-
-```
-task   duration
-q1     4.762273
-q2     4.550942
-q3     4.720327
-q4     4.006821
-q5     4.287993
-q7     5.015371
-q8    68.201933
-q9     8.156151
-```
-
-
 
