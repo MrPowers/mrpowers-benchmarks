@@ -1,6 +1,6 @@
 # MrPowers Benchmarks
 
-This repo performs benchmarking analysis on common datasets with popular query engines like pandas, Polars, DataFusion, and Dask.
+This repo performs benchmarking analysis on common datasets with popular query engines like pandas, Polars, DataFusion, and PySpark.
 
 It draws inspiration from the [h2o benchmarks](https://github.com/h2oai/db-benchmark) but also includes different types of queries and uses some different execution methodologies (e.g. modern file formats).
 
