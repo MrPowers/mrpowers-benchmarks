@@ -1,22 +1,23 @@
-name: mr-datafusion
+name: mrpowers-benchmarks
 channels:
   - conda-forge
   - defaults
 dependencies:
   - python=3.9
-  - pandas
-  - pyarrow
   - ipykernel
-  - s3fs
-  - python-blosc
-  - lz4
-  - nb_conda
   - jupyterlab
   - jupyterlab_code_formatter
   - isort
   - black
   - pytest
+  - pyspark=3.4.0
+  - delta-spark==2.4.0
   - pip
   - pip:
+    - quinn
+    - chispa
+    - mack
+    - levi
+    - deltalake
     - datafusion
-
+    - polars
