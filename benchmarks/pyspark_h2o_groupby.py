@@ -3,7 +3,6 @@ from helpers import benchmark, get_results
 import sys
 import pandas as pd
 from pyspark_h2o_groupby_queries import *
-from delta import configure_spark_with_delta_pip
 import pyspark
 
 path = sys.argv[1]
@@ -12,19 +11,18 @@ from pyspark.sql import SparkSession
 
 builder = (
     pyspark.sql.SparkSession.builder.appName("MyApp")
-    .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension")
     .config("spark.executor.memory", "10G")
     .config("spark.driver.memory", "25G")
-    .config(
-        "spark.sql.catalog.spark_catalog",
-        "org.apache.spark.sql.delta.catalog.DeltaCatalog",
-    )
+    .config("spark.driver.maxResultSize", "4g")
     .config("spark.sql.shuffle.partitions", "2")
 )
 
-spark = configure_spark_with_delta_pip(builder).getOrCreate()
+spark = builder.getOrCreate()
 
-df = spark.read.format("delta").load(path)
+df = spark.read.format("parquet").load(path)
+
+# instantiate spark session
+df.limit(3).show()
 
 benchmarks = {
     "duration": [],
@@ -33,7 +31,7 @@ benchmarks = {
 
 benchmark(q1, df=df, benchmarks=benchmarks, name="q1")
 benchmark(q2, df=df, benchmarks=benchmarks, name="q2")
-benchmark(q3, df=df, benchmarks=benchmarks, name="q3")
+# benchmark(q3, df=df, benchmarks=benchmarks, name="q3")
 # benchmark(q4, df=df, benchmarks=benchmarks, name="q4")
 # benchmark(q5, df=df, benchmarks=benchmarks, name="q5")
 # benchmark(q6, df=df, benchmarks=benchmarks, name="q6")

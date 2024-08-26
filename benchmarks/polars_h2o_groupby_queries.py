@@ -2,30 +2,30 @@ import polars as pl
 
 
 def q1(df):
-    return df.groupby("id1").agg(pl.sum("v1")).collect()
+    return df.group_by("id1").agg(pl.sum("v1")).collect()
 
 
 def q2(df):
-    return df.groupby(["id1", "id2"]).agg(pl.sum("v1")).collect()
+    return df.group_by(["id1", "id2"]).agg(pl.sum("v1")).collect()
 
 
 def q3(df):
-    return df.groupby("id3").agg([pl.sum("v1"), pl.mean("v3")]).collect()
+    return df.group_by("id3").agg([pl.sum("v1"), pl.mean("v3")]).collect()
 
 
 def q4(df):
     return (
-        df.groupby("id4").agg([pl.mean("v1"), pl.mean("v2"), pl.mean("v3")]).collect()
+        df.group_by("id4").agg([pl.mean("v1"), pl.mean("v2"), pl.mean("v3")]).collect()
     )
 
 
 def q5(df):
-    return df.groupby("id6").agg([pl.sum("v1"), pl.sum("v2"), pl.sum("v3")]).collect()
+    return df.group_by("id6").agg([pl.sum("v1"), pl.sum("v2"), pl.sum("v3")]).collect()
 
 
 def q6(df):
     return (
-        df.groupby(["id4", "id5"])
+        df.group_by(["id4", "id5"])
         .agg([pl.median("v3").alias("v3_median"), pl.std("v3").alias("v3_std")])
         .collect()
     )
