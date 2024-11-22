@@ -14,11 +14,11 @@ This repo provides clear instructions on how to generate the datasets and descri
 
 Here are the results for the h2o groupby queries on the 100 million row dataset (stored in a single Parquet file) for DataFusion and Polars:
 
-![most_h2o_groupby_1e8](https://github.com/MrPowers/mrpowers-benchmarks/blob/main/most_h2o_groupby_1e8.png)
+![most_h2o_groupby_1e8](https://github.com/MrPowers/mrpowers-benchmarks/blob/main/images/most_h2o_groupby_1e8.png)
 
 Here are the longer-running queries:
 
-![longer_h2o_groupby_1e8](https://github.com/MrPowers/mrpowers-benchmarks/blob/main/longer_h2o_groupby_1e8.png)
+![longer_h2o_groupby_1e8](https://github.com/MrPowers/mrpowers-benchmarks/blob/main/images/longer_h2o_groupby_1e8.png)
 
 These queries were run on a Macbook M3 with 16 GB of RAM.
 
