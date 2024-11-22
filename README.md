@@ -10,6 +10,23 @@ Most readers of this repo are interested in the benchmarking results and don't a
 
 This repo provides clear instructions on how to generate the datasets and descriptions of the results, so you can easily gain intuition about the actual benchmarks that are run.
 
+## h2o groupby results on localhost with revised methodology
+
+Here are the results for the h2o groupby queries on the 100 million row dataset (stored in a single Parquet file) for DataFusion and Polars:
+
+![most_h2o_groupby_1e8](https://github.com/MrPowers/mrpowers-benchmarks/blob/main/most_h2o_groupby_1e8.png)
+
+Here are the longer-running queries:
+
+![longer_h2o_groupby_1e8](https://github.com/MrPowers/mrpowers-benchmarks/blob/main/longer_h2o_groupby_1e8.png)
+
+These queries were run on a Macbook M3 with 16 GB of RAM.
+
+Here's how the benchmarking methdology differs from the h2o benchmarks:
+
+* they include the full query time (h2o benchmarks just include the query time once the data is loaded in memory)
+* Parquet files are used instead of CSV
+
 ## Benchmarking is hard
 
 It's difficult to build accurate benchmarks.  Runtimes depends on the hardware, software versions, and data setup.
@@ -38,11 +55,9 @@ The h2o benchmarks have certain limitations, as do all benchmarks.
 
 This section explains some of the limitations of the h2o benchmarks, not as a criticism, but to explain the tradeoffs that were made in the h2o benchmarks.  The h2o benchmarks are an excellent contribution to the data community and we should be grateful for the engineers that dedicated their time and effort to make them available.
 
-### No longer updated
+### DuckDB updates the benchmarks now
 
-The h2o benchmarks are no longer being updated, so we can't see the benchmarking results for new query engines and newer versions.  We also can't see updates when engineers that are specialized in a certain query engine make code fixes.
-
-It's completely reasonable that the h2o benchmarks are no longer maintained.  These were updated for years and the data community benefited from many years of updates.
+TODO
 
 ### Single CSV file
 

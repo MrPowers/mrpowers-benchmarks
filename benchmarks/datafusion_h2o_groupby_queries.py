@@ -1,3 +1,5 @@
+from helpers import benchmark, get_results
+
 def q1(ctx):
     return ctx.sql("select id1, sum(v1) as v1 from x group by id1").collect()
 
@@ -37,4 +39,25 @@ def q9(ctx):
 
 def q10(ctx):
     return ctx.sql("select id1, id2, id3, id4, id5, id6, sum(v3) as v3, count(*) as count from x group by id1, id2, id3, id4, id5, id6").collect()
+
+
+def run_benchmarks(ctx):
+    benchmarks = {
+        "duration": [],
+        "task": [],
+    }
+
+    benchmark(q1, df=ctx, benchmarks=benchmarks, name="q1")
+    benchmark(q2, df=ctx, benchmarks=benchmarks, name="q2")
+    benchmark(q3, df=ctx, benchmarks=benchmarks, name="q3")
+    benchmark(q4, df=ctx, benchmarks=benchmarks, name="q4")
+    benchmark(q5, df=ctx, benchmarks=benchmarks, name="q5")
+    benchmark(q6, df=ctx, benchmarks=benchmarks, name="q6")
+    benchmark(q7, df=ctx, benchmarks=benchmarks, name="q7")
+    benchmark(q8, df=ctx, benchmarks=benchmarks, name="q8")
+    benchmark(q9, df=ctx, benchmarks=benchmarks, name="q9")
+    benchmark(q10, df=ctx, benchmarks=benchmarks, name="q10")
+
+    res = get_results(benchmarks).set_index("task")
+    return res
 

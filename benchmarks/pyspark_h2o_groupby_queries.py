@@ -38,10 +38,11 @@ def q7(df):
 
 
 def q8(df):
-    ans = spark.sql(
-        "select id6, largest2_v3 from (select id6, v3 as largest2_v3, row_number() over (partition by id6 order by v3 desc) as order_v3 from x where v3 is not null) sub_query where order_v3 <= 2"
-    )
-    return ans.collect()
+    return df.drop_nulls("v3").group_by("id6").agg(col("v3").top_k(2).alias("largest2_v3")).explode("largest2_v3").collect()
+    # ans = spark.sql(
+    #     "select id6, largest2_v3 from (select id6, v3 as largest2_v3, row_number() over (partition by id6 order by v3 desc) as order_v3 from x where v3 is not null) sub_query where order_v3 <= 2"
+    # )
+    # return ans.collect()
 
 
 def q9(df):
