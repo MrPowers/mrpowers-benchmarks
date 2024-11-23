@@ -27,6 +27,16 @@ Here's how the benchmarking methdology differs from the h2o benchmarks:
 * they include the full query time (h2o benchmarks just include the query time once the data is loaded in memory)
 * Parquet files are used instead of CSV
 
+## Running the benchmarks on your machine
+
+Use [falsa](https://github.com/mrpowers-io/falsa) to generate the dataset.
+
+You can use this command: `falsa groupby --path-prefix=~/data --size SMALL --data-format PARQUET`.
+
+Here's how to run the benchmarks in this project: `uv run benchmarks/run_all.py /Users/matthewpowers/data/G1_1e8_1e8_100_0.parquet`.
+
+The small dataset has 10 million rows and runs quite fast.  The medium dataset (100 million rows) runs slower.  The large dataset (1 billion rows) often causes memory errors and is a good way to stress test query engines on localhost.
+
 ## Benchmarking is hard
 
 It's difficult to build accurate benchmarks.  Runtimes depends on the hardware, software versions, and data setup.
