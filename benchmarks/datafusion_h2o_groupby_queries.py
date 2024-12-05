@@ -9,8 +9,7 @@ def q2(ctx):
 
 
 def q3(ctx):
-    return ctx.sql("select count(distinct(id3)) from x").collect()
-    # return ctx.sql("select id3, sum(v1) as v1, avg(v3) as v3 from x group by id3").collect()
+    return ctx.sql("select id3, sum(v1) as v1, mean(v3) as v3 from x group by id3").collect()
 
 
 def q4(ctx):
@@ -30,7 +29,14 @@ def q7(ctx):
 
 
 def q8(ctx):
-    return ctx.sql("select id6, largest2_v3 from (select id6, v3 as largest2_v3, row_number() over (partition by id6 order by v3 desc) as order_v3 from x where v3 is not null) sub_query where order_v3 <= 2").collect()
+    sql = """
+    select id6, largest2_v3
+    from
+      (select id6, v3 as largest2_v3, row_number() over (partition by id6 order by v3 desc) as order_v3
+      from x where v3 is not null) sub_query
+      where order_v3 <= 2
+    """
+    return ctx.sql(sql).collect()
 
 
 def q9(ctx):
@@ -38,7 +44,12 @@ def q9(ctx):
 
 
 def q10(ctx):
-    return ctx.sql("select id1, id2, id3, id4, id5, id6, sum(v3) as v3, count(*) as count from x group by id1, id2, id3, id4, id5, id6").collect()
+    sql = """
+    select id1, id2, id3, id4, id5, id6, sum(v3) as v3, count(*) as count
+    from x
+    group by id1, id2, id3, id4, id5, id6
+    """
+    return ctx.sql(sql).collect()
 
 
 def run_benchmarks(ctx):
@@ -48,16 +59,26 @@ def run_benchmarks(ctx):
     }
 
     benchmark(q1, df=ctx, benchmarks=benchmarks, name="q1")
-    benchmark(q2, df=ctx, benchmarks=benchmarks, name="q2")
     benchmark(q3, df=ctx, benchmarks=benchmarks, name="q3")
     benchmark(q4, df=ctx, benchmarks=benchmarks, name="q4")
     benchmark(q5, df=ctx, benchmarks=benchmarks, name="q5")
     benchmark(q6, df=ctx, benchmarks=benchmarks, name="q6")
     benchmark(q7, df=ctx, benchmarks=benchmarks, name="q7")
     benchmark(q8, df=ctx, benchmarks=benchmarks, name="q8")
-    benchmark(q9, df=ctx, benchmarks=benchmarks, name="q9")
-    benchmark(q10, df=ctx, benchmarks=benchmarks, name="q10")
 
     res = get_results(benchmarks).set_index("task")
     return res
 
+
+def run_benchmarks_slow(ctx):
+    benchmarks = {
+        "duration": [],
+        "task": [],
+    }
+
+    benchmark(q2, df=ctx, benchmarks=benchmarks, name="q2")
+    # benchmark(q9, df=ctx, benchmarks=benchmarks, name="q9")
+    benchmark(q10, df=ctx, benchmarks=benchmarks, name="q10")
+
+    res = get_results(benchmarks).set_index("task")
+    return res

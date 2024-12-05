@@ -1,7 +1,8 @@
 from helpers import benchmark, get_results
 import daft
 
-print("HELLO")
+# print("setting native runner")
+# daft.context.set_runner_native()
 
 def q1(df):
     x = df
@@ -15,8 +16,7 @@ def q2(df):
 
 def q3(df):
     x = df
-    return daft.sql("select count(distinct(id3)) from x").collect()
-    # return ctx.sql("select id3, sum(v1) as v1, avg(v3) as v3 from x group by id3").collect()
+    return daft.sql("select id3, sum(v1) as v1, avg(v3) as v3 from x group by id3").collect()
 
 
 def q4(df):
@@ -61,16 +61,26 @@ def run_benchmarks(df):
     }
 
     benchmark(q1, df=df, benchmarks=benchmarks, name="q1")
-    benchmark(q2, df=df, benchmarks=benchmarks, name="q2")
-    # benchmark(q3, df=df, benchmarks=benchmarks, name="q3")
+    benchmark(q3, df=df, benchmarks=benchmarks, name="q3")
     benchmark(q4, df=df, benchmarks=benchmarks, name="q4")
     benchmark(q5, df=df, benchmarks=benchmarks, name="q5")
     # benchmark(q6, df=df, benchmarks=benchmarks, name="q6")
-    # benchmark(q7, df=df, benchmarks=benchmarks, name="q7")
+    benchmark(q7, df=df, benchmarks=benchmarks, name="q7")
     # benchmark(q8, df=df, benchmarks=benchmarks, name="q8")
+
+    res = get_results(benchmarks).set_index("task")
+    return res
+
+
+def run_benchmarks_slow(df):
+    benchmarks = {
+        "duration": [],
+        "task": [],
+    }
+
+    benchmark(q2, df=df, benchmarks=benchmarks, name="q2")
     # benchmark(q9, df=df, benchmarks=benchmarks, name="q9")
     benchmark(q10, df=df, benchmarks=benchmarks, name="q10")
 
     res = get_results(benchmarks).set_index("task")
     return res
-

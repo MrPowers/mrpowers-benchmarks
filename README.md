@@ -14,11 +14,11 @@ This repo provides clear instructions on how to generate the datasets and descri
 
 Here are the results for the h2o groupby queries on the 100 million row dataset (stored in a single Parquet file) for DataFusion and Polars:
 
-![most_h2o_groupby_1e8](https://github.com/MrPowers/mrpowers-benchmarks/blob/main/images/most_h2o_groupby_1e8.png)
+![fast_h2o_groupby_1e8](https://github.com/MrPowers/mrpowers-benchmarks/blob/main/images/groupby-fast.png)
 
 Here are the longer-running queries:
 
-![longer_h2o_groupby_1e8](https://github.com/MrPowers/mrpowers-benchmarks/blob/main/images/longer_h2o_groupby_1e8.png)
+![slow_h2o_groupby_1e8](https://github.com/MrPowers/mrpowers-benchmarks/blob/main/images/groupby-slow.png)
 
 These queries were run on a Macbook M3 with 16 GB of RAM.
 
@@ -59,15 +59,19 @@ Benchmarks can be harmful when they're biased or improperly structured and give 
 
 Benchmarks should also pave the way for revolutionary technologies to gain adoption.  When a new query engine figures out how to process data in a faster, more reliable manner, they should be able to quantify improvements to users via benchmarks.  This helps drive adoption.
 
+## Properties of good benchmarks
+
+* accessible dataset
+* list all software verions
+* list all hardware specs
+* open source benchmarking code
+* don't use any methdologies that clearly favor one engine without disclosing
+
 ## h2o benchmark methodology
 
 The h2o benchmarks have certain limitations, as do all benchmarks.
 
 This section explains some of the limitations of the h2o benchmarks, not as a criticism, but to explain the tradeoffs that were made in the h2o benchmarks.  The h2o benchmarks are an excellent contribution to the data community and we should be grateful for the engineers that dedicated their time and effort to make them available.
-
-### DuckDB updates the benchmarks now
-
-TODO
 
 ### Single CSV file
 
@@ -82,6 +86,10 @@ Remember that CSV is a row based file format and column projection is not suppor
 The h2o benchmarks persist data in memory, but they are using CSV files, so they need to persist all the data in memory at once.  They can't just persist the columns that are relevant to the query.  Persisting all the columns causes certain queries to error out that wouldn't otherwise have issues if only 2 or 3 columns were persisted.
 
 Persisting data in memory also hides performance benefits of querie engines that are capable of performing parallel I/O.
+
+### Presenting overall query runtime is misleading
+
+The h2o benchmarks show the runtimes for each individual query and all the queries summed.  The sum amount can be greatly impacted by one slowly running query, so it's potentially misleading.
 
 ### Engines that support parallel I/O
 
@@ -129,47 +137,3 @@ Running a query for a lazy computation engine generally involves two steps:
 Collecting the results into a single DataFrame arguably should not be included in the parallel engine computation runtime.  That's an extra step that's required to get the result, but not usually necessary in a real-world use case.
 
 It can unfortunately be hard to divide a query runtime into different compontents.  Most parallel compute engine query runtimes include both, which is probably misleading.
-
-## Quickstart
-
-This section explains how to download data, create software environments, and run benchmarks for the different execution engines.
-
-### Downloading datasets
-
-* Run `aws s3 cp s3://coiled-datasets/h2o-benchmark/N_1e7_K_1e2_single.csv tmp/` to download the 0.5 GB h2o groupby dataset
-* Substitute 1e8 and 1e9 to download the 5 GB and 50 GB datasets
-
-### Polars benchmarks
-
-* Create the `mr-polars` environment with `conda env create -f envs/mr-polars.yml`
-* Activate the environment with `conda activate mr-polars`
-* Run the Polars benchmarks with `python benchmarks/polars_h2o_groupby_csv.py tmp/N_1e7_K_1e2_single.csv`
-
-You'll get output like this that shows the runtime by h2o groupby queries:
-
-```
-task  duration
-q1    0.038983
-q2    0.117003
-q3    0.114049
-q4    0.044766
-q5    0.140829
-q6    0.189151
-q7    0.109352
-q8    0.817299
-q9    0.198762
-```
-
-### DataFusion benchmarks
-
-* Create the `mr-datafusion` environment with `conda env create -f envs/mr-datafusion.yml`
-* Activate the environment with `conda activate mr-datafusion`
-* Run the Polars benchmarks with `python benchmarks/datafusion_h2o_groupby_csv.py tmp/N_1e7_K_1e2_single.csv`
-
-### Dask benchmarks
-
-* Create the `mr-dask` environment with `conda env create -f envs/mr-dask.yml`
-* Activate the environment with `conda activate mr-dask`
-* Run `python dask_csv_to_parquet.py tmp/N_1e7_K_1e2_single.csv tmp/N_1e7_K_1e2_parquet` to break up the CSV dataset to 100 MB Parquet files
-* Run the Dask benchmarks with `python benchmarks/dask_h2o_groupby_csv.py tmp/N_1e7_K_1e2_single.csv`
-
