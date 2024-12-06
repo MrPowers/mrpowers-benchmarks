@@ -35,6 +35,9 @@ res = polars_res.join(datafusion_res, on="task").join(daft_res, on="task")
 print(res)
 
 ax = res.plot.bar(rot=0)
+ax.set_title('Fast h2o groupby queries')
+ax.set_ylabel('Seconds')
+ax.set_xlabel('Queries')
 ax.figure.savefig("images/groupby-fast.png")
 
 # Slow group by queries
@@ -62,4 +65,7 @@ res = polars_res.join(datafusion_res, on="task").join(daft_res, on="task")
 print(res)
 
 ax = res.plot.bar(rot=0)
+ax.set_title('Slower h2o groupby queries')
+ax.set_ylabel('Seconds')
+ax.set_xlabel('Queries')
 ax.figure.savefig("images/groupby-slow.png")
