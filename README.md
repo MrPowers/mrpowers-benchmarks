@@ -147,6 +147,10 @@ It can unfortunately be hard to divide a query runtime into different compontent
 ## Run scripts
 
 ```
+uv run benchmarks/run_all_groupby.py /Users/matthewpowers/data/G1_1e8_1e2_0_0.parquet
+```
+
+```
 uv run benchmarks/datafusion_h2o_join.py /Users/matthewpowers/data/J1_1e7_NA_0_0.parquet /Users/matthewpowers/data/J1_1e7_1e1_0_0.parquet /Users/matthewpowers/data/J1_1e7_1e4_0_0.parquet /Users/matthewpowers/data/J1_1e7_1e7_0_0.parquet
 ```
 

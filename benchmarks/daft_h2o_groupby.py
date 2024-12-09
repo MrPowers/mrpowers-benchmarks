@@ -7,7 +7,7 @@ path = sys.argv[1]
 
 df = daft.read_parquet(path)
 
-res = run_benchmarks(df)
+res = run_benchmarks(dfs)
 
 print("start")
 print(res)

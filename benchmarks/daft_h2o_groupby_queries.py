@@ -45,33 +45,35 @@ def q10(df):
     return daft.sql("select id1, id2, id3, id4, id5, id6, sum(v3) as v3, count(*) as count from x group by id1, id2, id3, id4, id5, id6", catalog=SQLCatalog({"x": df})).collect()
 
 
-def run_benchmarks(df):
+def run_benchmarks(dfs):
+    df = dfs[0]
     benchmarks = {
         "duration": [],
         "task": [],
     }
 
-    benchmark(q1, df=df, benchmarks=benchmarks, name="q1")
-    benchmark(q3, df=df, benchmarks=benchmarks, name="q3")
-    benchmark(q4, df=df, benchmarks=benchmarks, name="q4")
-    benchmark(q5, df=df, benchmarks=benchmarks, name="q5")
-    # benchmark(q6, df=df, benchmarks=benchmarks, name="q6")
-    benchmark(q7, df=df, benchmarks=benchmarks, name="q7")
-    # benchmark(q8, df=df, benchmarks=benchmarks, name="q8")
+    benchmark(q1, df, benchmarks=benchmarks, name="q1")
+    benchmark(q3, df, benchmarks=benchmarks, name="q3")
+    benchmark(q4, df, benchmarks=benchmarks, name="q4")
+    benchmark(q5, df, benchmarks=benchmarks, name="q5")
+    # benchmark(q6, df, benchmarks=benchmarks, name="q6")
+    benchmark(q7, df, benchmarks=benchmarks, name="q7")
+    # benchmark(q8, df, benchmarks=benchmarks, name="q8")
 
     res = get_results(benchmarks).set_index("task")
     return res
 
 
-def run_benchmarks_slow(df):
+def run_benchmarks_slow(dfs):
+    df = dfs[0]
     benchmarks = {
         "duration": [],
         "task": [],
     }
 
-    benchmark(q2, df=df, benchmarks=benchmarks, name="q2")
-    # benchmark(q9, df=df, benchmarks=benchmarks, name="q9")
-    benchmark(q10, df=df, benchmarks=benchmarks, name="q10")
+    benchmark(q2, df, benchmarks=benchmarks, name="q2")
+    # benchmark(q9, df, benchmarks=benchmarks, name="q9")
+    benchmark(q10, df, benchmarks=benchmarks, name="q10")
 
     res = get_results(benchmarks).set_index("task")
     return res

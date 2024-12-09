@@ -8,6 +8,6 @@ path = sys.argv[1]
 
 df = pl.scan_parquet(path, low_memory=True)
 
-res = run_benchmarks(df)
+res = run_benchmarks([df])
 
 print(res)

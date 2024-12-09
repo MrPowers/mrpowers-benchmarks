@@ -53,11 +53,11 @@ def run_benchmarks(dfs):
         "task": [],
     }
 
-    benchmark(q1, dfs=dfs, benchmarks=benchmarks, name="q1")
-    # benchmark(q2, df=x, benchmarks=benchmarks, name="q2")
-    # benchmark(q3, df=x, benchmarks=benchmarks, name="q3")
-    # benchmark(q4, df=x, benchmarks=benchmarks, name="q4")
-    # benchmark(q5, df=x, benchmarks=benchmarks, name="q5")
+    benchmark(q1, dfs, benchmarks=benchmarks, name="q1")
+    # benchmark(q2, x, benchmarks=benchmarks, name="q2")
+    # benchmark(q3, x, benchmarks=benchmarks, name="q3")
+    # benchmark(q4, x, benchmarks=benchmarks, name="q4")
+    # benchmark(q5, x, benchmarks=benchmarks, name="q5")
 
     res = get_results(benchmarks).set_index("task")
     return res

@@ -15,7 +15,7 @@ path = sys.argv[1]
 # polars
 print("*** Polars ***")
 df = pl.scan_parquet(path, low_memory=True)
-polars_res = polars_h2o_groupby_queries.run_benchmarks(df).rename(columns={"duration": "polars"})
+polars_res = polars_h2o_groupby_queries.run_benchmarks([df]).rename(columns={"duration": "polars"})
 print(polars_res)
 
 # datafusion
@@ -28,7 +28,7 @@ print(datafusion_res)
 # daft
 print("*** Daft ***")
 df = daft.read_parquet(path)
-daft_res = daft_h2o_groupby_queries.run_benchmarks(df).rename(columns={"duration": "daft"})
+daft_res = daft_h2o_groupby_queries.run_benchmarks([df]).rename(columns={"duration": "daft"})
 
 # all results
 res = polars_res.join(datafusion_res, on="task").join(daft_res, on="task")
@@ -45,7 +45,7 @@ ax.figure.savefig("images/groupby-fast.png")
 # polars
 print("*** Polars ***")
 df = pl.scan_parquet(path, low_memory=True)
-polars_res = polars_h2o_groupby_queries.run_benchmarks_slow(df).rename(columns={"duration": "polars"})
+polars_res = polars_h2o_groupby_queries.run_benchmarks_slow([df]).rename(columns={"duration": "polars"})
 print(polars_res)
 
 # datafusion
@@ -58,7 +58,7 @@ print(datafusion_res)
 # daft
 print("*** Daft ***")
 df = daft.read_parquet(path)
-daft_res = daft_h2o_groupby_queries.run_benchmarks_slow(df).rename(columns={"duration": "daft"})
+daft_res = daft_h2o_groupby_queries.run_benchmarks_slow([df]).rename(columns={"duration": "daft"})
 
 # all results
 res = polars_res.join(datafusion_res, on="task").join(daft_res, on="task")
