@@ -8,7 +8,7 @@ SELECT x.id1, x.id2, x.id3, x.id4 as xid4, small.id4 as smallid4, x.id5, x.id6, 
 FROM x
 INNER JOIN small ON x.id1 = small.id1
     """
-    catalog=SQLCatalog({"x": dfs[0], "small": dfs[1], "medium": dfs[1], "large": dfs[2]})
+    catalog=SQLCatalog({"x": dfs[0], "small": dfs[1], "medium": dfs[2], "large": dfs[3]})
     return daft.sql(query, catalog=catalog).collect()
 
 
@@ -18,7 +18,8 @@ SELECT x.id1 as xid1, medium.id1 as mediumid1, x.id2, x.id3, x.id4 as xid4, medi
 FROM x
 INNER JOIN medium ON x.id2 = medium.id2
     """
-    return ctx.sql(query).collect()
+    catalog=SQLCatalog({"x": dfs[0], "small": dfs[1], "medium": dfs[2], "large": dfs[3]})
+    return daft.sql(query, catalog=catalog).collect()
 
 
 def q3(dfs):
@@ -27,7 +28,9 @@ SELECT x.id1 as xid1, medium.id1 as mediumid1, x.id2, x.id3, x.id4 as xid4, medi
 FROM x
 LEFT JOIN medium ON x.id2 = medium.id2 
     """
-    return ctx.sql(query).collect()
+    catalog=SQLCatalog({"x": dfs[0], "small": dfs[1], "medium": dfs[2], "large": dfs[3]})
+    return daft.sql(query, catalog=catalog).collect()
+
 
 
 def q4(dfs):
@@ -36,7 +39,8 @@ SELECT x.id1 as xid1, medium.id1 as mediumid1, x.id2, x.id3, x.id4 as xid4, medi
 FROM x
 JOIN medium ON x.id5 = medium.id5
     """
-    return ctx.sql(query).collect()
+    catalog=SQLCatalog({"x": dfs[0], "small": dfs[1], "medium": dfs[2], "large": dfs[3]})
+    return daft.sql(query, catalog=catalog).collect()
 
 
 def q5(dfs):
@@ -45,7 +49,9 @@ SELECT x.id1 as xid1, large.id1 as largeid1, x.id2 as xid2, large.id2 as largeid
 FROM x
 JOIN large ON x.id3 = large.id3 
     """
-    return ctx.sql(query).collect()
+    catalog=SQLCatalog({"x": dfs[0], "small": dfs[1], "medium": dfs[2], "large": dfs[3]})
+    return daft.sql(query, catalog=catalog).collect()
+
 
 def run_benchmarks(dfs):
     benchmarks = {
@@ -54,10 +60,10 @@ def run_benchmarks(dfs):
     }
 
     benchmark(q1, dfs, benchmarks=benchmarks, name="q1")
-    # benchmark(q2, x, benchmarks=benchmarks, name="q2")
-    # benchmark(q3, x, benchmarks=benchmarks, name="q3")
-    # benchmark(q4, x, benchmarks=benchmarks, name="q4")
-    # benchmark(q5, x, benchmarks=benchmarks, name="q5")
+    benchmark(q2, dfs, benchmarks=benchmarks, name="q2")
+    benchmark(q3, dfs, benchmarks=benchmarks, name="q3")
+    benchmark(q4, dfs, benchmarks=benchmarks, name="q4")
+    benchmark(q5, dfs, benchmarks=benchmarks, name="q5")
 
     res = get_results(benchmarks).set_index("task")
     return res

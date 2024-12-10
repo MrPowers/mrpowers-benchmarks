@@ -5,6 +5,7 @@ import sys
 import pandas as pd
 import polars_h2o_join_queries
 import datafusion_h2o_join_queries
+import daft_h2o_join_queries
 from datafusion import SessionContext
 
 
@@ -32,8 +33,17 @@ ctx.register_parquet("large", large)
 datafusion_res = datafusion_h2o_join_queries.run_benchmarks([ctx]).rename(columns={"duration": "datafusion"})
 print(datafusion_res)
 
+# daft
+x = daft.read_parquet(x)
+small = daft.read_parquet(small)
+medium = daft.read_parquet(medium)
+large = daft.read_parquet(large)
+
+daft_res = daft_h2o_join_queries.run_benchmarks([x, small, medium, large]).rename(columns={"duration": "daft"})
+print(daft_res)
+
 # all results
-res = polars_res.join(datafusion_res, on="task")
+res = polars_res.join(datafusion_res, on="task").join(daft_res, on="task")
 print(res)
 
 ax = res.plot.bar(rot=0)
