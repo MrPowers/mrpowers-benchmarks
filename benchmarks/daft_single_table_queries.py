@@ -26,8 +26,11 @@ def q3(df):
     ).collect()
 
 
-# def q4(df):
-#     return daft.sql("select id4, avg(v1) as v1, avg(v2) as v2, avg(v3) as v3 from x group by id4", catalog=SQLCatalog({"x": df})).collect()
+def q4(df):
+    return daft.sql(
+        "select id4, avg(v1) as v1, avg(v2) as v2, avg(v3) as v3 from x where id6 < 100 and v2 > 5 group by id4 order by id4 desc",
+        catalog=SQLCatalog({"x": df})
+    ).collect()
 
 
 # def q5(df):
@@ -64,7 +67,7 @@ def run_benchmarks(dfs):
     benchmark(q1, df, benchmarks=benchmarks, name="q1")
     benchmark(q2, df, benchmarks=benchmarks, name="q2")
     # benchmark(q3, df, benchmarks=benchmarks, name="q3")
-    # benchmark(q4, df, benchmarks=benchmarks, name="q4")
+    benchmark(q4, df, benchmarks=benchmarks, name="q4")
     # benchmark(q5, df, benchmarks=benchmarks, name="q5")
     # benchmark(q6, df, benchmarks=benchmarks, name="q6")
     # benchmark(q7, df, benchmarks=benchmarks, name="q7")
