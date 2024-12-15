@@ -11,7 +11,7 @@ def q2(ctx):
 
 
 def q3(ctx):
-    query = "select id1, id2, min(v3) from (select * from x where id4 > 50 and v1 = 1) group by id1, id2"
+    query = "select id1, id2, min(v3) from x where id4 > 50 and v1 = 1 group by id1, id2"
     return ctx.sql(query).collect()
 
 

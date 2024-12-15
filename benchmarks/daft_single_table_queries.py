@@ -21,7 +21,7 @@ def q2(df):
 
 def q3(df):
     return daft.sql(
-        "select id1, id2, min(v3) from (select * from x where id4 > 50 and v1 = 1) group by id1, id2",
+        "select id1, id2, min(v3) from x where id4 > 50 and v1 = 1 group by id1, id2",
         catalog=SQLCatalog({"x": df})
     ).collect()
 
@@ -66,7 +66,7 @@ def run_benchmarks(dfs):
 
     benchmark(q1, df, benchmarks=benchmarks, name="q1")
     benchmark(q2, df, benchmarks=benchmarks, name="q2")
-    # benchmark(q3, df, benchmarks=benchmarks, name="q3")
+    benchmark(q3, df, benchmarks=benchmarks, name="q3")
     benchmark(q4, df, benchmarks=benchmarks, name="q4")
     # benchmark(q5, df, benchmarks=benchmarks, name="q5")
     # benchmark(q6, df, benchmarks=benchmarks, name="q6")
