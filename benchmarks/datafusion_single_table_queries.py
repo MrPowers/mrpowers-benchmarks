@@ -14,12 +14,9 @@ def q3(ctx):
     query = "select id1, id2, min(v3) from (select * from x where id4 > 50 and v1 = 1) group by id1, id2"
     return ctx.sql(query).collect()
 
-# def q3(ctx):
-#     return ctx.sql("select id3, sum(v1) as v1, mean(v3) as v3 from x group by id3").collect()
 
-
-# def q4(ctx):
-#     return ctx.sql("select id4, avg(v1) as v1, avg(v2) as v2, avg(v3) as v3 from x group by id4").collect()
+def q4(ctx):
+    return ctx.sql("select id4, avg(v1) as v1, avg(v2) as v2, avg(v3) as v3 from x where id6 < 100 and v2 > 5 group by id4 order by id4 desc").collect()
 
 
 # def q5(ctx):
@@ -67,7 +64,7 @@ def run_benchmarks(ctx):
     benchmark(q1, ctx, benchmarks=benchmarks, name="q1")
     benchmark(q2, ctx, benchmarks=benchmarks, name="q2")
     benchmark(q3, ctx, benchmarks=benchmarks, name="q3")
-    # benchmark(q4, ctx, benchmarks=benchmarks, name="q4")
+    benchmark(q4, ctx, benchmarks=benchmarks, name="q4")
     # benchmark(q5, ctx, benchmarks=benchmarks, name="q5")
     # benchmark(q6, ctx, benchmarks=benchmarks, name="q6")
     # benchmark(q7, ctx, benchmarks=benchmarks, name="q7")
