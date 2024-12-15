@@ -31,6 +31,12 @@ Here's how the benchmarking methdology differs from the h2o benchmarks:
 * they include the full query time (h2o benchmarks just include the query time once the data is loaded in memory)
 * Parquet files are used instead of CSV
 
+## Single table query results
+
+Here are the results for single table queries:
+
+![single_table_1e8](https://github.com/MrPowers/mrpowers-benchmarks/blob/main/images/single-table.png)
+
 ## Running the benchmarks on your machine
 
 Use [falsa](https://github.com/mrpowers-io/falsa) to generate the dataset.
@@ -151,6 +157,10 @@ uv run benchmarks/run_all_groupby.py /Users/matthewpowers/data/G1_1e8_1e2_0_0.pa
 ```
 
 ```
+uv run benchmarks/run_all_single_table.py /Users/matthewpowers/data/G1_1e8_1e2_0_0.parquet
+```
+
+```
 uv run benchmarks/datafusion_h2o_join.py /Users/matthewpowers/data/J1_1e7_NA_0_0.parquet /Users/matthewpowers/data/J1_1e7_1e1_0_0.parquet /Users/matthewpowers/data/J1_1e7_1e4_0_0.parquet /Users/matthewpowers/data/J1_1e7_1e7_0_0.parquet
 ```
 
@@ -173,6 +183,7 @@ uv run benchmarks/convert_csvs.py ~/Documents/code/cloned/db-benchmark/_data ~/d
 ***
 /Users/matthewpowers/data/G1_1e8_1e2_0_0.parquet
 shape: (100_000_000, 9)
+```
 ┌───────┬───────┬──────────────┬─────┬───┬────────┬─────┬─────┬───────────┐
 │ id1   ┆ id2   ┆ id3          ┆ id4 ┆ … ┆ id6    ┆ v1  ┆ v2  ┆ v3        │
 │ ---   ┆ ---   ┆ ---          ┆ --- ┆   ┆ ---    ┆ --- ┆ --- ┆ ---       │
@@ -190,11 +201,13 @@ shape: (100_000_000, 9)
 │ id081 ┆ id090 ┆ id0000802094 ┆ 53  ┆ … ┆ 57466  ┆ 1   ┆ 15  ┆ 23.319917 │
 │ id001 ┆ id057 ┆ id0000141978 ┆ 93  ┆ … ┆ 224681 ┆ 4   ┆ 10  ┆ 91.788497 │
 └───────┴───────┴──────────────┴─────┴───┴────────┴─────┴─────┴───────────┘
+```
 Schema({'id1': String, 'id2': String, 'id3': String, 'id4': Int64, 'id5': Int64, 'id6': Int64, 'v1': Int64, 'v2': Int64, 'v3': Float64})
 
 ***
 /Users/matthewpowers/data/J1_1e8_NA_0_0.parquet
 shape: (100_000_000, 7)
+```
 ┌─────┬────────┬───────────┬───────┬──────────┬─────────────┬───────────┐
 │ id1 ┆ id2    ┆ id3       ┆ id4   ┆ id5      ┆ id6         ┆ v1        │
 │ --- ┆ ---    ┆ ---       ┆ ---   ┆ ---      ┆ ---         ┆ ---       │
@@ -212,11 +225,13 @@ shape: (100_000_000, 7)
 │ 17  ┆ 4136   ┆ 85575483  ┆ id17  ┆ id4136   ┆ id85575483  ┆ 63.577894 │
 │ 70  ┆ 75769  ┆ 19286096  ┆ id70  ┆ id75769  ┆ id19286096  ┆ 49.151411 │
 └─────┴────────┴───────────┴───────┴──────────┴─────────────┴───────────┘
+```
 Schema({'id1': Int64, 'id2': Int64, 'id3': Int64, 'id4': String, 'id5': String, 'id6': String, 'v1': Float64})
 
 ***
 /Users/matthewpowers/data/J1_1e8_1e2_0_0.parquet
 shape: (100, 3)
+```
 ┌─────┬───────┬───────────┐
 │ id1 ┆ id4   ┆ v2        │
 │ --- ┆ ---   ┆ ---       │
@@ -234,11 +249,13 @@ shape: (100, 3)
 │ 105 ┆ id105 ┆ 94.711328 │
 │ 81  ┆ id81  ┆ 69.904453 │
 └─────┴───────┴───────────┘
+```
 Schema({'id1': Int64, 'id4': String, 'v2': Float64})
 
 ***
 /Users/matthewpowers/data/J1_1e8_1e5_0_0.parquet
 shape: (100_000, 5)
+```
 ┌─────┬────────┬───────┬──────────┬───────────┐
 │ id1 ┆ id2    ┆ id4   ┆ id5      ┆ v2        │
 │ --- ┆ ---    ┆ ---   ┆ ---      ┆ ---       │
@@ -256,11 +273,13 @@ shape: (100_000, 5)
 │ 31  ┆ 79430  ┆ id31  ┆ id79430  ┆ 52.355275 │
 │ 60  ┆ 10612  ┆ id60  ┆ id10612  ┆ 64.503299 │
 └─────┴────────┴───────┴──────────┴───────────┘
+```
 Schema({'id1': Int64, 'id2': Int64, 'id4': String, 'id5': String, 'v2': Float64})
 
 ***
 /Users/matthewpowers/data/J1_1e8_1e8_0_0.parquet
 shape: (100_000_000, 7)
+```
 ┌─────┬───────┬──────────┬───────┬─────────┬────────────┬───────────┐
 │ id1 ┆ id2   ┆ id3      ┆ id4   ┆ id5     ┆ id6        ┆ v2        │
 │ --- ┆ ---   ┆ ---      ┆ ---   ┆ ---     ┆ ---        ┆ ---       │
@@ -278,4 +297,6 @@ shape: (100_000_000, 7)
 │ 17  ┆ 89387 ┆ 16056323 ┆ id17  ┆ id89387 ┆ id16056323 ┆ 31.216292 │
 │ 53  ┆ 67188 ┆ 12279067 ┆ id53  ┆ id67188 ┆ id12279067 ┆ 0.275111  │
 └─────┴───────┴──────────┴───────┴─────────┴────────────┴───────────┘
+```
 Schema({'id1': Int64, 'id2': Int64, 'id3': Int64, 'id4': String, 'id5': String, 'id6': String, 'v2': Float64})
+```

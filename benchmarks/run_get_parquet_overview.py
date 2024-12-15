@@ -10,6 +10,8 @@ for parquet_path in glob.glob(f"{parquets_path}/*.parquet"):
 	df = pl.scan_parquet(parquet_path, low_memory=True)
 	print("***")
 	print(parquet_path)
+	print("```")
 	print(df.collect())
+	print("```")
 	print(df.collect_schema())
 

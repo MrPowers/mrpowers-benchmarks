@@ -1,7 +1,8 @@
 from helpers import benchmark, get_results
 
 def q1(ctx):
-    return ctx.sql("select id1, sum(v1) as v1 from x group by id1").collect()
+    query = "select id1, sum(v1) as v1 from x group by id1"
+    return ctx.sql(query).collect()
 
 
 def q2(ctx):
@@ -30,11 +31,11 @@ def q7(ctx):
 
 def q8(ctx):
     sql = """
-    select id6, largest2_v3
-    from
-      (select id6, v3 as largest2_v3, row_number() over (partition by id6 order by v3 desc) as order_v3
-      from x where v3 is not null) sub_query
-      where order_v3 <= 2
+SELECT id6, largest2_v3
+from
+  (SELECT id6, v3 as largest2_v3, row_number() over (partition by id6 ORDER BY v3 DESC) as order_v3
+  FROM x WHERE v3 is not null) sub_query
+  where order_v3 <= 2
     """
     return ctx.sql(sql).collect()
 
@@ -59,12 +60,14 @@ def run_benchmarks(ctx):
     }
 
     benchmark(q1, ctx, benchmarks=benchmarks, name="q1")
+    benchmark(q2, ctx, benchmarks=benchmarks, name="q2")
     benchmark(q3, ctx, benchmarks=benchmarks, name="q3")
     benchmark(q4, ctx, benchmarks=benchmarks, name="q4")
     benchmark(q5, ctx, benchmarks=benchmarks, name="q5")
     benchmark(q6, ctx, benchmarks=benchmarks, name="q6")
     benchmark(q7, ctx, benchmarks=benchmarks, name="q7")
     benchmark(q8, ctx, benchmarks=benchmarks, name="q8")
+    benchmark(q9, ctx, benchmarks=benchmarks, name="q9")
 
     res = get_results(benchmarks).set_index("task")
     return res
@@ -76,8 +79,6 @@ def run_benchmarks_slow(ctx):
         "task": [],
     }
 
-    benchmark(q2, ctx, benchmarks=benchmarks, name="q2")
-    # benchmark(q9, ctx, benchmarks=benchmarks, name="q9")
     benchmark(q10, ctx, benchmarks=benchmarks, name="q10")
 
     res = get_results(benchmarks).set_index("task")
