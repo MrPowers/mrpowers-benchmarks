@@ -9,6 +9,8 @@ import daft_h2o_join_queries
 from datafusion import SessionContext
 
 
+print("*** We starting this run ***")
+
 x = sys.argv[1]
 small = sys.argv[2]
 medium = sys.argv[3]
@@ -51,3 +53,6 @@ ax.set_title('h2o join queries')
 ax.set_ylabel('Seconds')
 ax.set_xlabel('Queries')
 ax.figure.savefig("images/h2o-join.png")
+
+
+print("*** We finished this run ***")

@@ -43,7 +43,7 @@ Use [falsa](https://github.com/mrpowers-io/falsa) to generate the dataset.
 
 You can use this command: `falsa groupby --path-prefix=~/data --size SMALL --data-format PARQUET`.
 
-Here's how to run the benchmarks in this project: `uv run benchmarks/run_all.py /Users/matthewpowers/data/G1_1e8_1e8_100_0.parquet`.
+Here's how to run the benchmarks in this project: `uv run benchmarks/run_all_groupby.py /Users/matthewpowers/data/G1_1e8_1e2_0_0.parquet`.
 
 The small dataset has 10 million rows and runs quite fast.  The medium dataset (100 million rows) runs slower.  The large dataset (1 billion rows) often causes memory errors and is a good way to stress test query engines on localhost.
 
