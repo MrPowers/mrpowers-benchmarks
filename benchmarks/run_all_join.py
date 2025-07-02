@@ -6,6 +6,7 @@ import pandas as pd
 import polars_h2o_join_queries
 import datafusion_h2o_join_queries
 import daft_h2o_join_queries
+import duckdb_h2o_join_queries
 from datafusion import SessionContext
 
 
@@ -36,16 +37,21 @@ datafusion_res = datafusion_h2o_join_queries.run_benchmarks([ctx]).rename(column
 print(datafusion_res)
 
 # daft
-x = daft.read_parquet(x)
-small = daft.read_parquet(small)
-medium = daft.read_parquet(medium)
-large = daft.read_parquet(large)
-
-daft_res = daft_h2o_join_queries.run_benchmarks([x, small, medium, large]).rename(columns={"duration": "daft"})
+print("*** Daft ***")
+daft_x = daft.read_parquet(x)
+daft_small = daft.read_parquet(small)
+daft_medium = daft.read_parquet(medium)
+daft_large = daft.read_parquet(large)
+daft_res = daft_h2o_join_queries.run_benchmarks([daft_x, daft_small, daft_medium, daft_large]).rename(columns={"duration": "daft"})
 print(daft_res)
 
+# duckdb
+print("*** DuckDB ***")
+duckdb_res = duckdb_h2o_join_queries.run_benchmarks([x, small, medium, large]).rename(columns={"duration": "duckdb"})
+print(duckdb_res)
+
 # all results
-res = polars_res.join(datafusion_res, on="task").join(daft_res, on="task")
+res = polars_res.join(datafusion_res, on="task").join(daft_res, on="task").join(duckdb_res, on="task")
 print(res)
 
 ax = res.plot.bar(rot=0)
