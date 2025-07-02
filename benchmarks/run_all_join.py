@@ -46,12 +46,17 @@ daft_res = daft_h2o_join_queries.run_benchmarks([daft_x, daft_small, daft_medium
 print(daft_res)
 
 # duckdb
-print("*** DuckDB ***")
-duckdb_res = duckdb_h2o_join_queries.run_benchmarks([x, small, medium, large]).rename(columns={"duration": "duckdb"})
-print(duckdb_res)
+# print("*** DuckDB ***")
+# duckdb_res = duckdb_h2o_join_queries.run_benchmarks([x, small, medium, large]).rename(columns={"duration": "duckdb"})
+# print(duckdb_res)
 
 # all results
-res = polars_res.join(datafusion_res, on="task").join(daft_res, on="task").join(duckdb_res, on="task")
+res = (
+    polars_res
+    .join(datafusion_res, on="task")
+    .join(daft_res, on="task")
+    # .join(duckdb_res, on="task"
+)
 print(res)
 
 ax = res.plot.bar(rot=0)
