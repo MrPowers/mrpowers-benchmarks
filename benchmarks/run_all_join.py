@@ -8,14 +8,30 @@ import datafusion_h2o_join_queries
 import daft_h2o_join_queries
 import duckdb_h2o_join_queries
 from datafusion import SessionContext
+import os
 
 
 print("*** We starting this run ***")
 
-x = sys.argv[1]
-small = sys.argv[2]
-medium = sys.argv[3]
-large = sys.argv[4]
+if sys.argv[1] == "1e8" or sys.argv[1] == "1e7":
+    num_rows = sys.argv[1]
+
+if sys.argv[1] == "1e7":
+    x = os.getenv("J1_1e7_NA")
+    small = os.getenv("J1_1e7_1e1")
+    medium = os.getenv("J1_1e7_1e4")
+    large = os.getenv("J1_1e7_1e7")
+elif sys.argv[1] == "1e8":
+    x = os.getenv("J1_1e8_NA")
+    small = os.getenv("J1_1e8_1e2")
+    medium = os.getenv("J1_1e8_1e5")
+    large = os.getenv("J1_1e8_1e8")
+else:
+    x = sys.argv[1]
+    small = sys.argv[2]
+    medium = sys.argv[3]
+    large = sys.argv[4]
+
 
 # polars
 print("*** Polars ***")
@@ -59,11 +75,10 @@ res = (
 )
 print(res)
 
-ax = res.plot.bar(rot=0)
-ax.set_title('h2o join queries')
-ax.set_ylabel('Seconds')
-ax.set_xlabel('Queries')
-ax.figure.savefig("images/h2o-join.png")
+if num_rows:
+    ax = res.plot.bar(rot=0)
+    ax.set_title(f'h2o join queries ({num_rows})')
+    ax.set_ylabel('Seconds')
+    ax.set_xlabel('Queries')
+    ax.figure.savefig(f"images/h2o-join-{num_rows}.png")
 
-
-print("*** We finished this run ***")

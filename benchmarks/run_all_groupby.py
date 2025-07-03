@@ -8,8 +8,15 @@ import datafusion_h2o_groupby_queries
 import daft_h2o_groupby_queries
 import duckdb_h2o_groupby_queries
 from datafusion import SessionContext
+import os
 
 path = sys.argv[1]
+if path == "1e8" or path == "1e7":
+    num_rows = sys.argv[1]
+if path == "1e8":
+    path = os.getenv("G1_1e8_1e2")
+elif path == "1e7":
+    path = os.getenv("G1_1e7_1e2")
 
 # Fast group by queries
 
@@ -44,11 +51,12 @@ res = (
 )
 print(res)
 
-ax = res.plot.bar(rot=0)
-ax.set_title('Fast h2o groupby queries')
-ax.set_ylabel('Seconds')
-ax.set_xlabel('Queries')
-ax.figure.savefig("images/groupby-fast.png")
+if num_rows:
+    ax = res.plot.bar(rot=0)
+    ax.set_title(f'Fast h2o groupby queries ({num_rows})')
+    ax.set_ylabel('Seconds')
+    ax.set_xlabel('Queries')
+    ax.figure.savefig(f"images/groupby-fast-{num_rows}.png")
 
 # Slow group by queries
 
@@ -78,8 +86,9 @@ duckdb_res = duckdb_h2o_groupby_queries.run_benchmarks_slow([path]).rename(colum
 res = polars_res.join(datafusion_res, on="task").join(daft_res, on="task").join(duckdb_res, on="task")
 print(res)
 
-ax = res.plot.bar(rot=0)
-ax.set_title('Slower h2o groupby queries')
-ax.set_ylabel('Seconds')
-ax.set_xlabel('Queries')
-ax.figure.savefig("images/groupby-slow.png")
+if num_rows:
+    ax = res.plot.bar(rot=0)
+    ax.set_title(f'Slower h2o groupby queries ({num_rows})')
+    ax.set_ylabel('Seconds')
+    ax.set_xlabel('Queries')
+    ax.figure.savefig(f"images/groupby-slow-{num_rows}.png")

@@ -8,8 +8,11 @@ SELECT x.id1, x.id2, x.id3, x.id4 as xid4, small.id4 as smallid4, x.id5, x.id6, 
 FROM x
 INNER JOIN small ON x.id1 = small.id1
     """
-    catalog=SQLCatalog({"x": dfs[0], "small": dfs[1], "medium": dfs[2], "large": dfs[3]})
-    return daft.sql(query, catalog=catalog).collect()
+    x = dfs[0]
+    small = dfs[1]
+    medium = dfs[2]
+    large = dfs[3]
+    return daft.sql(query).collect()
 
 
 def q2(dfs):

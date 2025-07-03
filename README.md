@@ -12,17 +12,29 @@ This repo provides clear instructions on how to generate the datasets and descri
 
 ## h2o groupby results on localhost with revised methodology
 
-Here are the results for the h2o groupby queries on the 100 million row dataset (stored in a single Parquet file) for DataFusion and Polars:
+Here are the results for the h2o groupby queries on the 10 million row dataset (stored in a single Parquet file):
 
-![fast_h2o_groupby_1e8](https://github.com/MrPowers/mrpowers-benchmarks/blob/main/images/groupby-fast.png)
+![fast_h2o_groupby_1e7](https://github.com/MrPowers/mrpowers-benchmarks/blob/main/images/groupby-fast-1e7.png)
+
+Here are the results for the h2o groupby queries on the 100 million row dataset:
+
+![fast_h2o_groupby_1e8](https://github.com/MrPowers/mrpowers-benchmarks/blob/main/images/groupby-fast-1e8.png)
 
 Here are the longer-running group by queries:
 
-![slow_h2o_groupby_1e8](https://github.com/MrPowers/mrpowers-benchmarks/blob/main/images/groupby-slow.png)
+![slow_h2o_groupby_1e7](https://github.com/MrPowers/mrpowers-benchmarks/blob/main/images/groupby-slow-1e7.png)
 
-Here are the results for the h2o join queries:
+Here they are on the bigger dataset:
 
-![h2o_join_1e8](https://github.com/MrPowers/mrpowers-benchmarks/blob/main/images/h2o-join.png)
+![slow_h2o_groupby_1e8](https://github.com/MrPowers/mrpowers-benchmarks/blob/main/images/groupby-slow-1e8.png)
+
+Here are the results for the h2o join queries on the 1e7 dataset:
+
+![h2o_join_1e8](https://github.com/MrPowers/mrpowers-benchmarks/blob/main/images/h2o-join-1e7.png)
+
+And here are the results on the 1e8 dataset:
+
+![h2o_join_1e8](https://github.com/MrPowers/mrpowers-benchmarks/blob/main/images/h2o-join-1e8.png)
 
 These queries were run on a Macbook M3 with 16 GB of RAM.
 
@@ -33,9 +45,13 @@ Here's how the benchmarking methdology differs from the h2o benchmarks:
 
 ## Single table query results
 
-Here are the results for single table queries:
+Here are the results for single table queries on the 1e7 dataset:
 
-![single_table_1e8](https://github.com/MrPowers/mrpowers-benchmarks/blob/main/images/single-table.png)
+![single_table_1e7](https://github.com/MrPowers/mrpowers-benchmarks/blob/main/images/single-table-1e7.png)
+
+And here are the results on the 1e8 table: 
+
+![single_table_1e8](https://github.com/MrPowers/mrpowers-benchmarks/blob/main/images/single-table-1e8.png)
 
 ## Running the benchmarks on your machine
 
@@ -45,7 +61,7 @@ You can use this command: `falsa groupby --path-prefix=~/data --size SMALL --dat
 
 Here's how to run the benchmarks in this project: `uv run benchmarks/run_all_groupby.py /Users/matthewpowers/data/G1_1e8_1e2_0_0.parquet`.
 
-The small dataset has 10 million rows and runs quite fast.  The medium dataset (100 million rows) runs slower.  The large dataset (1 billion rows) often causes memory errors and is a good way to stress test query engines on localhost.
+The small dataset has 10 million rows (1e7) and runs quite fast.  The medium dataset has 100 million rows (1e8) and runs slower.  The large dataset has 1 billion rows (1e9) and often causes memory errors - it's a good way to stress test query engines on a single machine.
 
 ## Benchmarking is hard
 
@@ -152,8 +168,33 @@ It can unfortunately be hard to divide a query runtime into different compontent
 
 ## Run scripts
 
+It's easier to run the benchmarks if you set the appropriate environment variables to the datasets:
+
+Here are the environment variables to set (update the file paths depending on where the files are located on your machine):
+
+```
+export G1_1e7_1e2=/Users/matthewpowers/data/G1_1e7_1e2_0_0.parquet
+export G1_1e8_1e2=/Users/matthewpowers/data/G1_1e8_1e2_0_0.parquet
+export J1_1e7_1e1=/Users/matthewpowers/data/J1_1e7_1e1_0_0.parquet
+export J1_1e7_1e4=/Users/matthewpowers/data/J1_1e7_1e4_0_0.parquet
+export J1_1e7_1e7=/Users/matthewpowers/data/J1_1e7_1e7_0_0.parquet
+export J1_1e7_NA=/Users/matthewpowers/data/J1_1e7_NA_0_0.parquet
+export J1_1e8_1e2=/Users/matthewpowers/data/J1_1e8_1e2_0_0.parquet
+export J1_1e8_1e5=/Users/matthewpowers/data/J1_1e8_1e5_0_0.parquet
+export J1_1e8_1e8=/Users/matthewpowers/data/J1_1e8_1e8_0_0.parquet
+export J1_1e8_NA=/Users/matthewpowers/data/J1_1e8_NA_0_0.parquet
+```
+
+You can type in the full path to the dataset when running commands:
+
 ```
 uv run benchmarks/run_all_groupby.py /Users/matthewpowers/data/G1_1e8_1e2_0_0.parquet
+```
+
+Or you can supply an argument with the path to the file:
+
+```
+uv run benchmarks/run_all_groupby.py 1e8
 ```
 
 ```

@@ -6,26 +6,26 @@ from helpers import benchmark, get_results
 def q1(df):
     x = df
     query = "select id1, id2, max(v3) as max_v3 from x group by id1, id2 order by max_v3 desc limit 5"
-    return pl.sql(query).collect()
+    return pl.sql(query).collect(engine="streaming")
 
 
 def q2(df):
     x = df
     query = "select * from x order by v3 desc limit 5"
-    return pl.sql(query).collect()
+    return pl.sql(query).collect(engine="streaming")
 
 
 
 def q3(df):
     x = df
     query = "select id1, id2, min(v3) from x where id4 > 50 and v1 = 1 group by id1, id2"
-    return pl.sql(query).collect()
+    return pl.sql(query).collect(engine="streaming")
 
 
 def q4(df):
     x = df
     query = "select id4, avg(v1) as v1, avg(v2) as v2, avg(v3) as v3 from x where id6 < 100 and v2 > 5 group by id4 order by id4 desc"
-    return pl.sql(query).collect()
+    return pl.sql(query).collect(engine="streaming")
 
 
 # def q5(df):
